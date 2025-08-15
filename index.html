@@ -2,26 +2,203 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RRB Mock Test - Units & Measurements</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="Comprehensive Units & Measurements Mock Test for RRB exams with advanced timer, question navigation, and detailed analysis.">
+    <meta name="keywords" content="RRB, Units, Measurements, Mock Test, Physics, Dimensional Analysis, CBT">
+    <meta name="author" content="RRB Mock Test Platform">
+    <meta name="robots" content="index, follow">
+    
+    <!-- PWA and Mobile App Tags -->
+    <meta name="application-name" content="Units Exam">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Units Exam">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="msapplication-TileColor" content="#1FB8CD">
+    <meta name="theme-color" content="#1FB8CD">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Units & Measurements Mock Test">
+    <meta property="og:description" content="Comprehensive RRB mock test with advanced features">
+    <meta property="og:url" content="/">
+    <meta property="og:site_name" content="RRB Mock Test Platform">
+    
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Units & Measurements Mock Test">
+    <meta name="twitter:description" content="Comprehensive RRB mock test with advanced features">
+    
+    <title>Units & Measurements Mock Test - RRB CBT Practice</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap" as="style">
+    <link rel="preload" href="css/style.css" as="style">
+    
+    <!-- Enhanced CSS Architecture - Optimized for better compatibility -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/review-answers.css">
+    <link rel="stylesheet" href="css/style-enhanced.css" media="screen">
+    <link rel="stylesheet" href="css/landing-view.css" media="screen">
+    <link rel="stylesheet" href="css/test-view.css" media="screen">
+    <link rel="stylesheet" href="css/result-view.css" media="screen">
+    <link rel="stylesheet" href="css/review-components.css" media="screen">
+    <link rel="stylesheet" href="css/review-answers.css" media="screen">
+    
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9IiMxRkI4Q0QiLz48dGV4dCB4PSIxMiIgeT0iMTYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlU8L3RleHQ+PC9zdmc+">
 </head>
-<body>
-    <!-- Main application container where components will be loaded -->
-    <div id="app-container">
+<body data-theme="light">
+    <!-- Skip to main content for accessibility -->
+    <a href="#app-container" class="skip-link" aria-label="Skip to main content">Skip to main content</a>
+    
+    <!-- Main application container with semantic structure -->
+    <main id="app-container" role="main" aria-label="Units and Measurements Mock Test Application">
+        <!-- Loading indicator -->
+        <div id="loading-indicator" class="loading-overlay" aria-hidden="true">
+            <div class="loading-spinner" role="status" aria-label="Loading application">
+                <div class="spinner"></div>
+                <span class="loading-text">Loading Mock Test...</span>
+            </div>
+        </div>
+        
         <!-- Components will be dynamically loaded here -->
+        <div id="views-container" aria-live="polite">
+            <!-- Views will be injected here by ViewManager -->
+        </div>
+        
+        <!-- Toast notification container -->
+        <div id="toast-container" aria-live="assertive" aria-atomic="true" class="toast-container"></div>
+        
+        <!-- Modal container for dialogs -->
+        <div id="modal-container" role="dialog" aria-hidden="true" class="modal-container"></div>
+    </main>
+
+    <!-- Offline indicator -->
+    <div id="offline-indicator" class="offline-indicator hidden" role="status" aria-live="polite">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="1" y1="1" x2="23" y2="23"></line>
+            <path d="m16.72 11.06 10.3 10.3-10.3-10.3v0z"></path>
+            <path d="m7 3.34 1.28.28A19.15 19.15 0 0 1 16.72 11.06"></path>
+            <path d="m20.1 13.81-.81-.81"></path>
+        </svg>
+        <span>You're offline. App will sync when connection is restored.</span>
     </div>
 
-    <!-- JavaScript modules - load in dependency order -->
+    <!-- External Libraries - Load with error handling -->
+    <!-- <script>
+      // Load Chart.js with error handling
+      const chartScript = document.createElement('script');
+      chartScript.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+      chartScript.onerror = function() {
+        console.warn('Chart.js failed to load from CDN, charts will be disabled');
+        window.Chart = null;
+      };
+      document.head.appendChild(chartScript);
+    </script> -->
+    
+    <!-- JavaScript modules - Load in dependency order -->
     <script src="js/questions-data.js"></script>
     <script src="js/utils.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/charts.js"></script>
     <script src="js/timer.js"></script>
+    <script src="js/adaptive-system.js"></script>
+    <script src="js/performance-analytics.js"></script>
     <script src="js/question-manager.js"></script>
     <script src="js/state-manager.js"></script>
     <script src="js/view-manager.js"></script>
     <script src="js/test-manager.js"></script>
     <script src="js/app-main.js"></script>
+    
+    <!-- PWA Service Worker Registration -->
+    <script>
+        // Register service worker for PWA functionality
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', async () => {
+                try {
+                    const registration = await navigator.serviceWorker.register('./sw.js');
+                    console.log('Service Worker registered successfully:', registration);
+                    
+                    // Handle service worker updates
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        if (newWorker) {
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // Show update available notification
+                                    if (window.Utils && window.Utils.showToast) {
+                                        window.Utils.showToast('App update available. Refresh to get the latest version.', 'info', 5000);
+                                    }
+                                }
+                            });
+                        }
+                    });
+                } catch (error) {
+                    console.log('Service Worker registration failed:', error);
+                }
+            });
+        }
+        
+        // Handle online/offline status
+        window.addEventListener('online', () => {
+            document.getElementById('offline-indicator')?.classList.add('hidden');
+            if (window.Utils && window.Utils.showToast) {
+                window.Utils.showToast('Connection restored', 'success');
+            }
+        });
+        
+        window.addEventListener('offline', () => {
+            document.getElementById('offline-indicator')?.classList.remove('hidden');
+            if (window.Utils && window.Utils.showToast) {
+                window.Utils.showToast('You are offline. App functionality may be limited.', 'warning');
+            }
+        });
+        
+        // Initialize app when DOM is ready
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Show loading indicator
+                const loadingIndicator = document.getElementById('loading-indicator');
+                if (loadingIndicator) {
+                    loadingIndicator.style.display = 'flex';
+                }
+                
+                // Initialize the application (singleton pattern)
+                if (window.MockTestApp && !window.mockTestAppInstance) {
+                    window.mockTestAppInstance = new window.MockTestApp();
+                    await window.mockTestAppInstance.init();
+                } else if (window.mockTestAppInstance && window.mockTestAppInstance.initialized) {
+                    console.log('MockTestApp already initialized, skipping...');
+                } else {
+                    console.error('MockTestApp class not found');
+                }
+                
+                // Hide loading indicator
+                setTimeout(() => {
+                    if (loadingIndicator) {
+                        loadingIndicator.style.display = 'none';
+                    }
+                }, 1000);
+            } catch (error) {
+                console.error('App initialization failed:', error);
+                // Show error message to user
+                const container = document.getElementById('app-container');
+                if (container) {
+                    container.innerHTML = `
+                        <div class="error-container">
+                            <h1>Failed to Load Application</h1>
+                            <p>There was an error loading the mock test application. Please refresh the page or try again later.</p>
+                            <button onclick="window.location.reload()" class="btn btn--primary">Refresh Page</button>
+                        </div>
+                    `;
+                }
+            }
+        });
+    </script>
 </body>
 </html>

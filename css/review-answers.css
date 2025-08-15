@@ -37,6 +37,116 @@
   --ra-card-shadow: 0 2px 8px rgb(0 0 0 / 0.7);
 }
 
+/* Question Navigation Panel */
+.question-navigation-panel {
+  background: var(--ra-surface);
+  border-radius: var(--ra-card-radius);
+  padding: var(--ra-spacing);
+  margin-bottom: var(--ra-spacing);
+  box-shadow: var(--ra-card-shadow);
+  border: var(--ra-border);
+}
+
+.question-navigation-panel h3 {
+  margin: 0 0 1rem 0;
+  color: var(--ra-primary);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.question-nav-btn {
+  width: 45px;
+  height: 45px;
+  border: 2px solid var(--ra-neutral);
+  background: var(--ra-surface);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--ra-transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.question-nav-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(31, 184, 205, 0.2);
+}
+
+.question-nav-btn.correct {
+  background: var(--ra-success);
+  color: white;
+  border-color: var(--ra-success);
+}
+
+.question-nav-btn.incorrect {
+  background: var(--ra-danger);
+  color: white;
+  border-color: var(--ra-danger);
+}
+
+.question-nav-btn.unanswered {
+  background: var(--ra-neutral);
+  color: var(--ra-muted);
+  border-color: var(--ra-neutral);
+}
+
+.question-nav-btn.current {
+  background: var(--ra-primary);
+  color: white;
+  border-color: var(--ra-primary);
+  transform: scale(1.1);
+  box-shadow: 0 0 0 3px rgba(31, 184, 205, 0.3);
+}
+
+.navigation-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.875rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 2px solid;
+}
+
+.legend-color.correct {
+  background: var(--ra-success);
+  border-color: var(--ra-success);
+}
+
+.legend-color.incorrect {
+  background: var(--ra-danger);
+  border-color: var(--ra-danger);
+}
+
+.legend-color.unanswered {
+  background: var(--ra-neutral);
+  border-color: var(--ra-neutral);
+}
+
+.legend-color.current {
+  background: var(--ra-primary);
+  border-color: var(--ra-primary);
+}
+
 #review-answers-view {
   padding: 0;
   margin: 0;

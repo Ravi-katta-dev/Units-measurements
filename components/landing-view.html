@@ -1,28 +1,116 @@
-<!-- Enhanced Landing View Component -->
+<!-- Enhanced Landing View Component with Modern Hero Design -->
 <div id="landing-view" class="view active">
+    <div class="hero-background">
+        <div class="hero-particles"></div>
+        <div class="hero-gradient"></div>
+    </div>
+    
     <div class="container">
         <div class="landing-content">
-            <div class="brand-header">
-                <h1>RRB Mock Test</h1>
-                <h2>Units & Measurements </h2>
-                <div class="test-info">
-                    <span class="info-badge">50 Questions</span>
-                    <span class="info-badge">Mixed Difficulty</span>
-                    <span class="info-badge">Complete Analysis</span>
-                </div>
-            </div>
-            
-            <div class="settings-panel">
-                <div class="settings-grid">
-                    <div class="setting-group">
-                        <label for="test-duration" class="setting-label">
+            <!-- Modern Hero Section -->
+            <div class="hero-section">
+                <div class="brand-header">
+                    <div class="brand-icon">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M9 12l2 2 4-4"></path>
+                            <path d="M21 12c.552 0 1-.448 1-1V5c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6c0 .552.448 1 1 1h18z"></path>
+                            <path d="M3 12v7c0 .552.448 1 1 1h16c.552 0 1-.448 1-1v-7"></path>
+                        </svg>
+                    </div>
+                    <h1 class="hero-title">
+                        <span class="title-primary">RRB Mock Test</span>
+                        <span class="title-highlight">Units & Measurements</span>
+                    </h1>
+                    <p class="hero-subtitle">Master dimensional analysis and measurement concepts with our comprehensive CBT-style practice platform</p>
+                    
+                    <div class="feature-badges">
+                        <div class="feature-badge" style="--badge-index: 0;">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14,2 14,8 20,8"></polyline>
+                            </svg>
+                            <span>50 Questions</span>
+                        </div>
+                        <div class="feature-badge" style="--badge-index: 1;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12,2 22,8.5 22,15.5 12,22 2,15.5 2,8.5"></polygon>
+                                <circle cx="12" cy="12" r="4"></circle>
+                            </svg>
+                            <span>Mixed Difficulty</span>
+                        </div>
+                        <div class="feature-badge" style="--badge-index: 2;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 3v18h18"></path>
+                                <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"></path>
+                            </svg>
+                            <span>Complete Analysis</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Key Features Highlight -->
+                <div class="features-grid">
+                    <div class="feature-card" style="--card-index: 0;">
+                        <div class="feature-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                 <circle cx="12" cy="12" r="10"></circle>
                                 <polyline points="12,6 12,12 16,14"></polyline>
                             </svg>
-                            Test Duration
+                        </div>
+                        <h3>Smart Timer</h3>
+                        <p>40-second question timer with visual alerts and exam-level timing</p>
+                    </div>
+                    
+                    <div class="feature-card" style="--card-index: 1;">
+                        <div class="feature-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M3 3v18h18"></path>
+                                <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"></path>
+                            </svg>
+                        </div>
+                        <h3>Detailed Analytics</h3>
+                        <p>Comprehensive performance analysis with topic-wise breakdown</p>
+                    </div>
+                    
+                    <div class="feature-card" style="--card-index: 2;">
+                        <div class="feature-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="1"></circle>
+                                <circle cx="19" cy="12" r="1"></circle>
+                                <circle cx="5" cy="12" r="1"></circle>
+                                <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"></path>
+                            </svg>
+                        </div>
+                        <h3>PWA Ready</h3>
+                        <p>Install on any device with offline support and modern features</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Enhanced Settings Panel -->
+            <div class="settings-panel">
+                <div class="settings-header">
+                    <h3>Customize Your Experience</h3>
+                    <p>Configure your test preferences for optimal practice</p>
+                </div>
+                
+                <div class="settings-grid">
+                    <div class="setting-group enhanced">
+                        <label for="test-duration" class="setting-label">
+                            <div class="label-content">
+                                <div class="label-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12,6 12,12 16,14"></polyline>
+                                    </svg>
+                                </div>
+                                <div class="label-text">
+                                    <span class="label-title">Test Duration</span>
+                                    <span class="label-subtitle">Choose your test time limit</span>
+                                </div>
+                            </div>
                         </label>
-                        <select id="test-duration" class="form-control">
+                        <select id="test-duration" class="form-control enhanced">
                             <option value="60">60 minutes</option>
                             <option value="90" selected>90 minutes (RRB Mode)</option>
                             <option value="120">120 minutes</option>
@@ -30,15 +118,22 @@
                         </select>
                     </div>
                     
-                    <div class="setting-group">
+                    <div class="setting-group enhanced">
                         <label for="question-timer" class="setting-label">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12,6 12,12 8,14"></polyline>
-                            </svg>
-                            Question Timer
+                            <div class="label-content">
+                                <div class="label-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12,6 12,12 8,14"></polyline>
+                                    </svg>
+                                </div>
+                                <div class="label-text">
+                                    <span class="label-title">Question Timer</span>
+                                    <span class="label-subtitle">Set individual question time</span>
+                                </div>
+                            </div>
                         </label>
-                        <select id="question-timer" class="form-control">
+                        <select id="question-timer" class="form-control enhanced">
                             <option value="40">40 seconds (Recommended)</option>
                             <option value="60">1 minute</option>
                             <option value="120">2 minutes</option>
@@ -48,88 +143,194 @@
                     </div>
                 </div>
                 
-                <div id="custom-duration-section" class="setting-group hidden">
-                    <label class="setting-label">Custom Duration:</label>
+                <div id="custom-duration-section" class="setting-group enhanced hidden">
+                    <label class="setting-label">
+                        <div class="label-content">
+                            <div class="label-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg>
+                            </div>
+                            <div class="label-text">
+                                <span class="label-title">Custom Duration</span>
+                                <span class="label-subtitle">Set your preferred time</span>
+                            </div>
+                        </div>
+                    </label>
                     <div class="custom-duration-inputs">
                         <div class="time-input-group">
-                            <input type="number" id="custom-minutes" class="form-control time-input" 
+                            <input type="number" id="custom-minutes" class="form-control time-input enhanced" 
                                    min="1" max="300" placeholder="MM" value="90">
                             <label for="custom-minutes" class="time-input-label">Minutes</label>
                         </div>
                         <div class="time-input-group">
-                            <input type="number" id="custom-seconds" class="form-control time-input" 
+                            <input type="number" id="custom-seconds" class="form-control time-input enhanced" 
                                    min="0" max="59" placeholder="SS" value="0">
                             <label for="custom-seconds" class="time-input-label">Seconds</label>
                         </div>
                     </div>
                 </div>
                 
-                <div class="checkbox-grid">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="rrb-mode">
-                        <span class="checkbox-custom"></span>
-                        <span class="checkbox-text">RRB CBT Interface Mode</span>
-                    </label>
-                    
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="dark-mode">
-                        <span class="checkbox-custom"></span>
-                        <span class="checkbox-text">Dark Mode</span>
-                    </label>
+                <div class="preferences-section">
+                    <h4 class="preferences-title">Test Preferences</h4>
+                    <div class="checkbox-grid enhanced">
+                        <label class="checkbox-label enhanced">
+                            <input type="checkbox" id="rrb-mode">
+                            <span class="checkbox-custom enhanced"></span>
+                            <div class="checkbox-content">
+                                <span class="checkbox-title">RRB CBT Interface Mode</span>
+                                <span class="checkbox-subtitle">Simulate official exam interface</span>
+                            </div>
+                        </label>
+                        
+                        <label class="checkbox-label enhanced">
+                            <input type="checkbox" id="dark-mode">
+                            <span class="checkbox-custom enhanced"></span>
+                            <div class="checkbox-content">
+                                <span class="checkbox-title">Dark Mode</span>
+                                <span class="checkbox-subtitle">Easy on the eyes interface</span>
+                            </div>
+                        </label>
 
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="enhanced-timer" checked>
-                        <span class="checkbox-custom"></span>
-                        <span class="checkbox-text">Enhanced Timer with Alerts</span>
-                    </label>
+                        <label class="checkbox-label enhanced">
+                            <input type="checkbox" id="enhanced-timer" checked>
+                            <span class="checkbox-custom enhanced"></span>
+                            <div class="checkbox-content">
+                                <span class="checkbox-title">Enhanced Timer with Alerts</span>
+                                <span class="checkbox-subtitle">Visual warnings and progress indicators</span>
+                            </div>
+                        </label>
 
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="question-grid-sidebar">
-                        <span class="checkbox-custom"></span>
-                        <span class="checkbox-text">Question Grid Sidebar</span>
-                    </label>
+                        <label class="checkbox-label enhanced">
+                            <input type="checkbox" id="question-grid-sidebar">
+                            <span class="checkbox-custom enhanced"></span>
+                            <div class="checkbox-content">
+                                <span class="checkbox-title">Question Grid Sidebar</span>
+                                <span class="checkbox-subtitle">Quick navigation panel</span>
+                            </div>
+                        </label>
+                    </div>
                 </div>
                 
-                <div class="setting-group">
+                <div class="setting-group enhanced">
                     <label for="question-source" class="setting-label">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                            <polyline points="14,2 14,8 20,8"></polyline>
-                            <line x1="16" y1="13" x2="8" y2="13"></line>
-                            <line x1="16" y1="17" x2="8" y2="17"></line>
-                            <polyline points="10,9 9,9 8,9"></polyline>
-                        </svg>
-                        Question Source
+                        <div class="label-content">
+                            <div class="label-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14,2 14,8 20,8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10,9 9,9 8,9"></polyline>
+                                </svg>
+                            </div>
+                            <div class="label-text">
+                                <span class="label-title">Question Source</span>
+                                <span class="label-subtitle">Choose question bank</span>
+                            </div>
+                        </div>
                     </label>
-                    <select id="question-source" class="form-control">
+                    <select id="question-source" class="form-control enhanced">
                         <option value="default">Default Questions (50 questions)</option>
                         <option value="json">Upload JSON File</option>
                     </select>
                 </div>
                 
-                <div id="json-upload-section" class="setting-group hidden">
-                    <label for="json-file" class="setting-label">Upload Questions JSON:</label>
-                    <div class="file-upload-area">
+                <div id="json-upload-section" class="setting-group enhanced hidden">
+                    <label for="json-file" class="setting-label">
+                        <div class="label-content">
+                            <div class="label-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7,10 12,15 17,10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </div>
+                            <div class="label-text">
+                                <span class="label-title">Upload Questions JSON</span>
+                                <span class="label-subtitle">Custom question bank</span>
+                            </div>
+                        </div>
+                    </label>
+                    <div class="file-upload-area enhanced">
                         <input type="file" id="json-file" accept=".json" class="file-input">
                         <div class="file-upload-display">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                <polyline points="7,10 12,15 17,10"></polyline>
-                                <line x1="12" y1="15" x2="12" y2="3"></line>
-                            </svg>
-                            <span>Drop JSON file here or click to browse</span>
+                            <div class="upload-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7,10 12,15 17,10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </div>
+                            <div class="upload-text">
+                                <span class="upload-title">Drop JSON file here</span>
+                                <span class="upload-subtitle">or click to browse</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="start-button-container">
-                <button id="start-test-btn" class="btn btn--primary btn--large">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polygon points="5,3 19,12 5,21"></polygon>
-                    </svg>
-                    Start Mock Test
+            <!-- Enhanced Call-to-Action -->
+            <div class="cta-section">
+                <button id="start-test-btn" class="btn btn--primary btn--large enhanced">
+                    <div class="btn-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5,3 19,12 5,21"></polygon>
+                        </svg>
+                    </div>
+                    <div class="btn-content">
+                        <span class="btn-title">Start Mock Test</span>
+                        <span class="btn-subtitle">Begin your practice session</span>
+                    </div>
                 </button>
+                
+                <!-- Test Progress Buttons -->
+                <div class="progress-buttons hidden" id="progress-buttons">
+                    <button id="resume-test-btn" class="btn btn--secondary btn--large enhanced hidden">
+                        <div class="btn-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5,3 19,12 5,21"></polygon>
+                            </svg>
+                        </div>
+                        <div class="btn-content">
+                            <span class="btn-title">Resume Test</span>
+                            <span class="btn-subtitle">Continue your progress</span>
+                        </div>
+                    </button>
+                    
+                    <button id="reset-test-btn" class="btn btn--outline btn--large enhanced">
+                        <div class="btn-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                                <path d="M3 3v5h5"></path>
+                            </svg>
+                        </div>
+                        <div class="btn-content">
+                            <span class="btn-title">Reset Test Data</span>
+                            <span class="btn-subtitle">Clear all progress</span>
+                        </div>
+                    </button>
+                </div>
+                
+                <div class="confidence-indicators">
+                    <div class="confidence-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 12l2 2 4-4"></path>
+                            <path d="M21 12c.552 0 1-.448 1-1V5c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6c0 .552.448 1 1 1h18z"></path>
+                        </svg>
+                        <span>Instant results & detailed analysis</span>
+                    </div>
+                    <div class="confidence-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="1"></circle>
+                            <circle cx="12" cy="5" r="1"></circle>
+                            <circle cx="12" cy="19" r="1"></circle>
+                        </svg>
+                        <span>Works offline • No registration required</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -135,24 +135,18 @@ class ViewManager {
 
   // Component-specific initialization methods
   initializeTestView(element) {
-    // Initialize test-specific event listeners and functionality
-    const nextBtn = element.querySelector('#next-question');
-    const prevBtn = element.querySelector('#prev-question');
-    
-    if (nextBtn) nextBtn.addEventListener('click', () => window.testManager?.nextQuestion());
-    if (prevBtn) prevBtn.addEventListener('click', () => window.testManager?.previousQuestion());
+    // Button event listeners removed - handled by global event delegation in app-main.js
+    // This prevents duplicate event listeners that were causing multiple confirmations
   }
 
   initializeResultView(element) {
-    // Initialize result-specific functionality
-    const reviewBtn = element.querySelector('#review-answers-btn');
-    if (reviewBtn) reviewBtn.addEventListener('click', () => this.showView('review-answers'));
+    // Button event listeners removed - handled by global event delegation in app-main.js
+    // This prevents duplicate event listeners that were causing multiple confirmations
   }
 
   initializeReviewAnswersView(element) {
-    // Initialize review-specific functionality
-    const backBtn = element.querySelector('#back-to-results-btn');
-    if (backBtn) backBtn.addEventListener('click', () => this.showView('result'));
+    // Button event listeners removed - handled by global event delegation in app-main.js
+    // This prevents duplicate event listeners that were causing multiple confirmations
   }
 
   initializeReviewPanel(element) {
@@ -466,7 +460,8 @@ class ViewManager {
   }
 }
 
-// Export for use in other modules
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = ViewManager;
-}
+// Make ViewManager globally available
+window.ViewManager = ViewManager;
+
+// Export for browser use - attach to window object
+window.ViewManager = ViewManager;
