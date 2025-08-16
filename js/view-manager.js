@@ -225,32 +225,60 @@ class ViewManager {
   }
 
   // Handle view activation events
-  onViewActivated(viewName, element) {
-    try {
-      switch (viewName) {
-        case 'test':
-          // Refresh test display
-          if (window.testManager) {
-            window.testManager.updateQuestionDisplay();
+ onViewActivated(viewName, element) {
+  try {
+    switch (viewName) {
+      // ... other cases ...
+      case 'review-answers':
+        // Initialize review functionality
+        if (window.testManager) {
+          window.testManager.initializeReview();
+        }
+
+        // --- INSERT NAVIGATOR SETUP CODE HERE ---
+        const questionCount = window.testManager?.getCurrentQuestions().length || 50;
+        const currentIndex = window.testManager?.stateManager.getState().reviewCurrentQ || 0;
+
+        function getStatusClass(idx) {
+          const state = window.testManager?.stateManager.getState();
+          if (!state) return '';
+          if (idx === state.reviewCurrentQ) return 'current';
+          if (state.answers[idx] === null) return 'unanswered';
+          if (state.answers[idx] === state.questions[idx].correctIndex) return 'correct';
+          return 'incorrect';
+        }
+
+        const grid = document.getElementById('review-question-grid');
+        if (grid) {
+          grid.innerHTML = '';
+          for (let i = 0; i < questionCount; i++) {
+            const btn = document.createElement('button');
+            btn.className = 'review-question-btn';
+            btn.textContent = i + 1;
+            btn.dataset.qIndex = i;
+
+            btn.classList.add(getStatusClass(i));
+            if (i === currentIndex) {
+              btn.classList.add('current');
+            }
+
+            btn.addEventListener('click', () => {
+              window.testManager?.stateManager.updateState({ reviewCurrentQ: i });
+              if (window.app && window.app.updateReviewDisplay) {
+                window.app.updateReviewDisplay(i);
+              }
+            });
+
+            grid.appendChild(btn);
           }
-          break;
-        case 'result':
-          // Update result calculations
-          if (window.testManager) {
-            window.testManager.calculateResults();
-          }
-          break;
-        case 'review-answers':
-          // Initialize review functionality
-          if (window.testManager) {
-            window.testManager.initializeReview();
-          }
-          break;
-      }
-    } catch (error) {
-      console.error(`Error in view activation for ${viewName}:`, error);
+        }
+        // --- END NAVIGATOR SETUP CODE ---
+        break;
     }
+  } catch (error) {
+    console.error(`Error in view activation for ${viewName}:`, error);
   }
+}
 
   // Get current active view
   getCurrentView() {
