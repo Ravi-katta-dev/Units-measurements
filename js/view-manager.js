@@ -135,18 +135,24 @@ class ViewManager {
 
   // Component-specific initialization methods
   initializeTestView(element) {
-    // Button event listeners removed - handled by global event delegation in app-main.js
-    // This prevents duplicate event listeners that were causing multiple confirmations
+    // Initialize test-specific event listeners and functionality
+    const nextBtn = element.querySelector('#next-question');
+    const prevBtn = element.querySelector('#prev-question');
+    
+    if (nextBtn) nextBtn.addEventListener('click', () => window.testManager?.nextQuestion());
+    if (prevBtn) prevBtn.addEventListener('click', () => window.testManager?.previousQuestion());
   }
 
   initializeResultView(element) {
-    // Button event listeners removed - handled by global event delegation in app-main.js
-    // This prevents duplicate event listeners that were causing multiple confirmations
+    // Initialize result-specific functionality
+    const reviewBtn = element.querySelector('#review-answers-btn');
+    if (reviewBtn) reviewBtn.addEventListener('click', () => this.showView('review-answers'));
   }
 
   initializeReviewAnswersView(element) {
-    // Button event listeners removed - handled by global event delegation in app-main.js
-    // This prevents duplicate event listeners that were causing multiple confirmations
+    // Initialize review-specific functionality
+    const backBtn = element.querySelector('#back-to-results-btn');
+    if (backBtn) backBtn.addEventListener('click', () => this.showView('result'));
   }
 
   initializeReviewPanel(element) {
@@ -225,60 +231,57 @@ class ViewManager {
   }
 
   // Handle view activation events
- onViewActivated(viewName, element) {
-  try {
-    switch (viewName) {
-      // ... other cases ...
-      case 'review-answers':
-        // Initialize review functionality
-        if (window.testManager) {
-          window.testManager.initializeReview();
-        }
-
-        // --- INSERT NAVIGATOR SETUP CODE HERE ---
-        const questionCount = window.testManager?.getCurrentQuestions().length || 50;
-        const currentIndex = window.testManager?.stateManager.getState().reviewCurrentQ || 0;
-
-        function getStatusClass(idx) {
-          const state = window.testManager?.stateManager.getState();
-          if (!state) return '';
-          if (idx === state.reviewCurrentQ) return 'current';
-          if (state.answers[idx] === null) return 'unanswered';
-          if (state.answers[idx] === state.questions[idx].correctIndex) return 'correct';
-          return 'incorrect';
-        }
-
-        const grid = document.getElementById('review-question-grid');
-        if (grid) {
-          grid.innerHTML = '';
-          for (let i = 0; i < questionCount; i++) {
-            const btn = document.createElement('button');
-            btn.className = 'review-question-btn';
-            btn.textContent = i + 1;
-            btn.dataset.qIndex = i;
-
-            btn.classList.add(getStatusClass(i));
-            if (i === currentIndex) {
-              btn.classList.add('current');
-            }
-
-            btn.addEventListener('click', () => {
-              window.testManager?.stateManager.updateState({ reviewCurrentQ: i });
-              if (window.app && window.app.updateReviewDisplay) {
-                window.app.updateReviewDisplay(i);
-              }
-            });
-
-            grid.appendChild(btn);
+  onViewActivated(viewName, element) {
+    try {
+      switch (viewName) {
+        case 'test':
+          // Refresh test display
+          if (window.testManager) {
+            window.testManager.updateQuestionDisplay();
           }
-        }
-        // --- END NAVIGATOR SETUP CODE ---
-        break;
+          break;
+        case 'result':
+          // Update result calculations
+          if (window.testManager) {
+            window.testManager.calculateResults();
+          }
+          break;
+        case 'review-answers':
+          // Initialize review functionality
+          if (window.testManager) {
+            window.testManager.initializeReview();
+          }
+          // Build the question navigator grid safely (FIXED)
+          const grid = document.getElementById('review-question-grid');
+          if (grid && window.testManager) {
+            grid.innerHTML = '';
+            const questionCount = window.testManager.getCurrentQuestions().length;
+            const state = window.testManager.stateManager.getState();
+            for (let i = 0; i < questionCount; i++) {
+              const btn = document.createElement('button');
+              btn.className = 'review-question-btn';
+              btn.textContent = i + 1;
+              btn.dataset.qIndex = i;
+
+              // Get status class safely and only add if non-empty
+              const statusClass = getReviewStatusClass(state, i);
+              if (statusClass) btn.classList.add(statusClass);
+
+              btn.addEventListener('click', () => {
+                window.testManager.stateManager.updateState({ reviewCurrentQ: i });
+                if (window.app && window.app.updateReviewDisplay) {
+                  window.app.updateReviewDisplay(i);
+                }
+              });
+              grid.appendChild(btn);
+            }
+          }
+          break;
+      }
+    } catch (error) {
+      console.error(`Error in view activation for ${viewName}:`, error);
     }
-  } catch (error) {
-    console.error(`Error in view activation for ${viewName}:`, error);
   }
-}
 
   // Get current active view
   getCurrentView() {
@@ -488,8 +491,26 @@ class ViewManager {
   }
 }
 
-// Make ViewManager globally available
-window.ViewManager = ViewManager;
+// Helper function to get review status class for navigator
+function getReviewStatusClass(state, idx) {
+  // Returns one of: "answered", "unanswered", "bookmarked", "bookmarked unanswered"
+  // but NEVER empty string!
+  let classes = '';
+  if (state.answers && state.answers[idx] !== null && state.answers[idx] !== undefined) {
+    classes += 'answered';
+  } else {
+    classes += 'unanswered';
+  }
+  if (state.bookmarked && state.bookmarked[idx]) {
+    classes += (classes ? ' ' : '') + 'bookmarked';
+    if (state.answers && (state.answers[idx] === null || state.answers[idx] === undefined)) {
+      classes += ' unanswered';
+    }
+  }
+  return classes.trim(); // if nothing, returns "", so only add class if non-empty
+}
 
-// Export for browser use - attach to window object
-window.ViewManager = ViewManager;
+// Export for use in other modules
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = ViewManager;
+}
