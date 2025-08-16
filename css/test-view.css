@@ -862,7 +862,7 @@
     border-color: var(--color-error-dark, #b62324) !important;
   }
   .question-time {
-    color: var(--color-text-dark, #f3f3f3) !important;
+    color: var(--color-text-dark, #9d2929) !important;
   }
   .question-timer-enhanced.warning .question-time {
     color: var(--color-warning-dark, #b7801a) !important;
