@@ -771,26 +771,56 @@ body {
 
 .review-item.answered {
   background-color: var(--color-success);
-  color: white;
+  color: var(--color-btn-primary-text, white);
 }
 
 .review-item.unanswered {
-  background-color: var(--color-secondary-light);
+  background-color: var(--color-secondary, #f3f3f3);
+  color: var(--color-text, #333);
 }
 
 .review-item.bookmarked {
   background-color: var(--color-warning);
-  color: white;
+  color: var(--color-btn-primary-text, white);
 }
 
 .review-item.bookmarked.unanswered {
-  background-color: #f59e0b;
+  background-color: var(--color-warning);
+  color: var(--color-btn-primary-text, white);
   background-image: repeating-linear-gradient(
     45deg,
     transparent,
     transparent 2px,
-    rgba(255, 255, 255, 0.3) 2px,
-    rgba(255, 255, 255, 0.3) 4px
+    rgba(255, 255, 255, 0.15) 2px,
+    rgba(255, 255, 255, 0.15) 4px
+  );
+}
+
+/* Dark mode compatibility */
+[data-color-scheme="dark"] .review-item.answered {
+  background-color: var(--color-success, #32b8c6);
+  color: var(--color-surface, #111);
+}
+
+[data-color-scheme="dark"] .review-item.unanswered {
+  background-color: var(--color-secondary, #222);
+  color: var(--color-text, #f3f3f3);
+}
+
+[data-color-scheme="dark"] .review-item.bookmarked {
+  background-color: var(--color-warning, #e68161);
+  color: var(--color-surface, #111);
+}
+
+[data-color-scheme="dark"] .review-item.bookmarked.unanswered {
+  background-color: var(--color-warning, #e68161);
+  color: var(--color-surface, #111);
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 255, 0.07) 2px,
+    rgba(255, 255, 255, 0.07) 4px
   );
 }
 
