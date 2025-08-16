@@ -59,7 +59,5 @@ if (typeof window !== 'undefined') {
   window.DEFAULT_QUESTIONS = DEFAULT_QUESTIONS;
 }
 
-// Export for use in other modules
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = DEFAULT_QUESTIONS;
-}
+// Export for browser use - attach to window object
+window.DEFAULT_QUESTIONS = DEFAULT_QUESTIONS;

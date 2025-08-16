@@ -251,6 +251,31 @@ class ViewManager {
           if (window.testManager) {
             window.testManager.initializeReview();
           }
+          // Build the question navigator grid safely (FIXED)
+          const grid = document.getElementById('review-question-grid');
+          if (grid && window.testManager) {
+            grid.innerHTML = '';
+            const questionCount = window.testManager.getCurrentQuestions().length;
+            const state = window.testManager.stateManager.getState();
+            for (let i = 0; i < questionCount; i++) {
+              const btn = document.createElement('button');
+              btn.className = 'review-question-btn';
+              btn.textContent = i + 1;
+              btn.dataset.qIndex = i;
+
+              // Get status class safely and only add if non-empty
+              const statusClass = getReviewStatusClass(state, i);
+              if (statusClass) btn.classList.add(statusClass);
+
+              btn.addEventListener('click', () => {
+                window.testManager.stateManager.updateState({ reviewCurrentQ: i });
+                if (window.app && window.app.updateReviewDisplay) {
+                  window.app.updateReviewDisplay(i);
+                }
+              });
+              grid.appendChild(btn);
+            }
+          }
           break;
       }
     } catch (error) {
@@ -464,6 +489,25 @@ class ViewManager {
       element.classList.toggle(className, force);
     }
   }
+}
+
+// Helper function to get review status class for navigator
+function getReviewStatusClass(state, idx) {
+  // Returns one of: "answered", "unanswered", "bookmarked", "bookmarked unanswered"
+  // but NEVER empty string!
+  let classes = '';
+  if (state.answers && state.answers[idx] !== null && state.answers[idx] !== undefined) {
+    classes += 'answered';
+  } else {
+    classes += 'unanswered';
+  }
+  if (state.bookmarked && state.bookmarked[idx]) {
+    classes += (classes ? ' ' : '') + 'bookmarked';
+    if (state.answers && (state.answers[idx] === null || state.answers[idx] === undefined)) {
+      classes += ' unanswered';
+    }
+  }
+  return classes.trim(); // if nothing, returns "", so only add class if non-empty
 }
 
 // Export for use in other modules

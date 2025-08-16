@@ -30,15 +30,24 @@
             
             <div class="charts-container">
                 <div class="chart-wrapper">
-                    <h3>Topic-wise Accuracy</h3>
-                    <div class="chart-container" style="position: relative; height: 300px;">
-                        <canvas id="topic-chart"></canvas>
+                    <h3 id="topic-chart-title">Topic-wise Accuracy</h3>
+                    <div class="chart-container" style="position: relative; height: 300px;" role="img" aria-labelledby="topic-chart-title" aria-describedby="topic-chart-desc">
+                        <canvas id="topic-chart" aria-label="Chart showing accuracy percentage by topic"></canvas>
+                        <p id="topic-chart-desc" class="sr-only">Bar chart displaying performance accuracy across different physics topics</p>
                     </div>
                 </div>
                 <div class="chart-wrapper">
-                    <h3>Difficulty-wise Performance</h3>
-                    <div class="chart-container" style="position: relative; height: 300px;">
-                        <canvas id="difficulty-chart"></canvas>
+                    <h3 id="difficulty-chart-title">Difficulty-wise Performance</h3>
+                    <div class="chart-container" style="position: relative; height: 300px;" role="img" aria-labelledby="difficulty-chart-title" aria-describedby="difficulty-chart-desc">
+                        <canvas id="difficulty-chart" aria-label="Chart showing performance by difficulty level"></canvas>
+                        <p id="difficulty-chart-desc" class="sr-only">Stacked bar chart showing correct and incorrect answers by difficulty level</p>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <h3 id="score-chart-title">Overall Score</h3>
+                    <div class="chart-container" style="position: relative; height: 300px;" role="img" aria-labelledby="score-chart-title" aria-describedby="score-chart-desc">
+                        <canvas id="score-chart" aria-label="Circular chart showing overall test score"></canvas>
+                        <p id="score-chart-desc" class="sr-only">Doughnut chart displaying overall test score as a percentage</p>
                     </div>
                 </div>
             </div>
@@ -67,6 +76,153 @@
                 </div>
             </div>
 
+            <!-- Phase 4: Advanced Analytics Dashboard -->
+            <div class="advanced-analytics">
+                <h2>📊 Advanced Performance Analytics</h2>
+                
+                <!-- Performance Insights Cards -->
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <div class="card-header">
+                            <div class="card-icon">🎯</div>
+                            <div class="card-title">Accuracy Trend</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="metric-value" id="accuracy-trend">+5.2%</div>
+                            <div class="metric-label">vs. last attempt</div>
+                            <div class="trend-indicator positive">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                    <polyline points="17 6 23 6 23 12"></polyline>
+                                </svg>
+                                Improving
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-card">
+                        <div class="card-header">
+                            <div class="card-icon">⚡</div>
+                            <div class="card-title">Speed Analysis</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="metric-value" id="speed-metric">1.2x</div>
+                            <div class="metric-label">optimal speed</div>
+                            <div class="trend-indicator neutral">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="8" y1="6" x2="21" y2="6"></line>
+                                    <line x1="8" y1="12" x2="21" y2="12"></line>
+                                    <line x1="8" y1="18" x2="21" y2="18"></line>
+                                    <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                                    <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                    <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                                </svg>
+                                Balanced
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-card">
+                        <div class="card-header">
+                            <div class="card-icon">🔥</div>
+                            <div class="card-title">Consistency</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="metric-value" id="consistency-score">8.5/10</div>
+                            <div class="metric-label">stability index</div>
+                            <div class="trend-indicator positive">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+                                    <polyline points="14,2 14,8 20,8"></polyline>
+                                    <line x1="10" y1="13" x2="14" y2="13"></line>
+                                    <line x1="10" y1="17" x2="14" y2="17"></line>
+                                </svg>
+                                Strong
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-card">
+                        <div class="card-header">
+                            <div class="card-icon">🎖️</div>
+                            <div class="card-title">Predicted Score</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="metric-value" id="predicted-score">85-92%</div>
+                            <div class="metric-label">in real exam</div>
+                            <div class="confidence-bar">
+                                <div class="confidence-fill" style="width: 87%"></div>
+                                <span class="confidence-label">87% confidence</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Time Distribution Analysis -->
+                <div class="time-analysis">
+                    <h3>⏱️ Time Management Analysis</h3>
+                    <div class="time-breakdown">
+                        <div class="time-category">
+                            <div class="time-bar">
+                                <div class="time-segment fast" style="width: 30%"></div>
+                                <div class="time-segment optimal" style="width: 45%"></div>
+                                <div class="time-segment slow" style="width: 25%"></div>
+                            </div>
+                            <div class="time-legend">
+                                <div class="legend-item">
+                                    <div class="legend-color fast"></div>
+                                    <span>Fast (0-20s): 30%</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color optimal"></div>
+                                    <span>Optimal (20-35s): 45%</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color slow"></div>
+                                    <span>Slow (35s+): 25%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Smart Recommendations -->
+                <div class="smart-recommendations">
+                    <h3>🧠 AI-Powered Recommendations</h3>
+                    <div class="recommendation-cards">
+                        <div class="recommendation-card priority-high">
+                            <div class="rec-header">
+                                <span class="rec-priority">High Priority</span>
+                                <span class="rec-impact">+8% potential gain</span>
+                            </div>
+                            <div class="rec-content">
+                                <h4>Focus on Error Analysis</h4>
+                                <p>You scored 40% in Error Analysis topics. Reviewing significant figures and precision concepts could significantly improve your overall score.</p>
+                                <div class="rec-actions">
+                                    <button class="rec-btn">Study Now</button>
+                                    <button class="rec-btn-secondary">Save for Later</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="recommendation-card priority-medium">
+                            <div class="rec-header">
+                                <span class="rec-priority">Medium Priority</span>
+                                <span class="rec-impact">+4% potential gain</span>
+                            </div>
+                            <div class="rec-content">
+                                <h4>Improve Time Management</h4>
+                                <p>You spent too much time on easy questions. Practice quick dimensional analysis to save time for harder problems.</p>
+                                <div class="rec-actions">
+                                    <button class="rec-btn">Practice Now</button>
+                                    <button class="rec-btn-secondary">Learn More</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="detailed-results">
                 <h3>Question-wise Analysis</h3>
                 <div class="results-table-container">
@@ -88,10 +244,35 @@
             </div>
 
             <div class="result-actions">
-                <button id="review-answers-btn" class="btn btn--primary">Review My Answers</button>
-                <button id="view-solutions-btn" class="btn btn--outline">View Step-by-Step Solutions</button>
-                <button id="export-results-btn" class="btn btn--secondary">Export Results</button>
-                <button id="new-test-btn" class="btn btn--outline">Start New Test</button>
+                <button id="review-answers-btn" class="btn btn--primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    Review My Answers
+                </button>
+                <button id="view-solutions-btn" class="btn btn--outline">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;">
+                        <path d="M9.5 2C7.01 2 5 4.01 5 6.5S7.01 11 9.5 11 14 9.49 14 7V6.5"></path>
+                        <path d="M14 7v7c0 2.49-2.01 4.5-4.5 4.5S5 16.49 5 14"></path>
+                    </svg>
+                    View Solutions
+                </button>
+                <button id="export-results-btn" class="btn btn--secondary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Export Results
+                </button>
+                <button id="new-test-btn" class="btn btn--outline">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;">
+                        <path d="M3 3v18h18"></path>
+                        <path d="M7 12l3 3 7-7"></path>
+                    </svg>
+                    Start New Test
+                </button>
             </div>
         </div>
     </div>

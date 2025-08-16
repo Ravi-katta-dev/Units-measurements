@@ -4,7 +4,7 @@
         <div class="landing-content">
             <div class="brand-header">
                 <h1>RRB Mock Test</h1>
-                <h2>Units & Measurements </h2>
+                <h2>Units & Measurements</h2>
                 <div class="test-info">
                     <span class="info-badge">50 Questions</span>
                     <span class="info-badge">Mixed Difficulty</span>
@@ -22,6 +22,7 @@
                             </svg>
                             Test Duration
                         </label>
+                        <div class="setting-desc">Choose your test time limit</div>
                         <select id="test-duration" class="form-control">
                             <option value="60">60 minutes</option>
                             <option value="90" selected>90 minutes (RRB Mode)</option>
@@ -38,6 +39,7 @@
                             </svg>
                             Question Timer
                         </label>
+                        <div class="setting-desc">Set individual question time</div>
                         <select id="question-timer" class="form-control">
                             <option value="40">40 seconds (Recommended)</option>
                             <option value="60">1 minute</option>
@@ -52,13 +54,11 @@
                     <label class="setting-label">Custom Duration:</label>
                     <div class="custom-duration-inputs">
                         <div class="time-input-group">
-                            <input type="number" id="custom-minutes" class="form-control time-input" 
-                                   min="1" max="300" placeholder="MM" value="90">
+                            <input type="number" id="custom-minutes" class="form-control time-input" min="1" max="300" placeholder="MM" value="90">
                             <label for="custom-minutes" class="time-input-label">Minutes</label>
                         </div>
                         <div class="time-input-group">
-                            <input type="number" id="custom-seconds" class="form-control time-input" 
-                                   min="0" max="59" placeholder="SS" value="0">
+                            <input type="number" id="custom-seconds" class="form-control time-input" min="0" max="59" placeholder="SS" value="0">
                             <label for="custom-seconds" class="time-input-label">Seconds</label>
                         </div>
                     </div>
@@ -101,6 +101,7 @@
                         </svg>
                         Question Source
                     </label>
+                    <div class="setting-desc">Select default or upload custom questions</div>
                     <select id="question-source" class="form-control">
                         <option value="default">Default Questions (50 questions)</option>
                         <option value="json">Upload JSON File</option>
@@ -108,16 +109,24 @@
                 </div>
                 
                 <div id="json-upload-section" class="setting-group hidden">
-                    <label for="json-file" class="setting-label">Upload Questions JSON:</label>
-                    <div class="file-upload-area">
-                        <input type="file" id="json-file" accept=".json" class="file-input">
+                    <label for="json-file" class="setting-label">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7,10 12,15 17,10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Upload Questions JSON
+                    </label>
+                    <div class="setting-desc">Custom question bank</div>
+                    <div class="file-upload-area" onclick="document.getElementById('json-file').click();" tabindex="0" style="cursor:pointer;">
+                        <input type="file" id="json-file" accept=".json" class="file-input" style="display:none;">
                         <div class="file-upload-display">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--color-primary)">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="7,10 12,15 17,10"></polyline>
                                 <line x1="12" y1="15" x2="12" y2="3"></line>
                             </svg>
-                            <span>Drop JSON file here or click to browse</span>
+                            <span>Drop JSON file here<br>or click to browse</span>
                         </div>
                     </div>
                 </div>

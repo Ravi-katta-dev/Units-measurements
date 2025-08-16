@@ -1,6 +1,8 @@
 // Test Management Module
 // Handles test execution, question display, navigation, and timing
 
+/* global CustomTimer */
+
 class TestManager {
   constructor(stateManager, viewManager, questionManager) {
     this.stateManager = stateManager;
@@ -255,25 +257,29 @@ class TestManager {
       progressElement.classList.remove('hidden');
     }
     
-    const currentQuestions = this.getCurrentQuestions();
-    const currentQuestion = currentQuestions[this.stateManager.getCurrentQuestion()];
-    const timeLimit = (currentQuestion && currentQuestion.timeLimit) ? 
-      currentQuestion.timeLimit / 60 : 5; // Default 5 minutes per question
+    // Use 40 seconds for question timer (standard for competitive exams)
+    const timeLimit = 40; // 40 seconds
     
     this.questionStartTime = Date.now();
     
     // Use CustomTimer if available, otherwise fallback
     if (typeof CustomTimer !== 'undefined') {
-      this.customQuestionTimer = new CustomTimer({
-        duration: timeLimit,
+      this.customQuestionTimer = CustomTimer.createQuestionTimer({
         element: timerElement,
         progressElement: progressElement,
         audioAlert: false,
         visualAlert: true,
-        warningThresholds: [2, 1],
         onTick: (remaining) => {
           const elapsed = Math.floor((Date.now() - this.questionStartTime) / 1000);
           this.stateManager.updateTimeSpent(this.stateManager.getCurrentQuestion(), elapsed);
+          
+          // Update circular progress
+          this.updateCircularProgress(remaining);
+        },
+        onComplete: () => {
+          // Auto move to next question when time is up
+          console.log('Question time up, moving to next question');
+          this.nextQuestion();
         }
       });
       
@@ -289,7 +295,7 @@ class TestManager {
     
     const timerElement = this.timerElements.questionTimer;
     const progressElement = this.timerElements.questionTimerProgress;
-    const totalDuration = timeLimit * 60 * 1000;
+    const totalDuration = timeLimit * 1000; // Convert to milliseconds
     
     this.questionStartTime = Date.now();
     
@@ -303,15 +309,21 @@ class TestManager {
           timerElement.textContent = timeString;
           
           // Update warning classes
-          timerElement.classList.remove('warning', 'danger');
-          if (remaining < 1 * 60 * 1000) {
-            timerElement.classList.add('danger');
-          } else if (remaining < 2 * 60 * 1000) {
-            timerElement.classList.add('warning');
+          timerElement.classList.remove('warning', 'danger', 'timer-warning', 'timer-critical', 'timer-normal');
+          if (remaining < 5000) { // Last 5 seconds
+            timerElement.classList.add('danger', 'timer-critical');
+          } else if (remaining < 10000) { // Last 10 seconds
+            timerElement.classList.add('warning', 'timer-warning');
+          } else {
+            timerElement.classList.add('timer-normal');
           }
         } else {
           timerElement.textContent = 'Time Up!';
-          timerElement.classList.add('danger');
+          timerElement.classList.add('danger', 'timer-critical');
+          
+          // Auto move to next question
+          this.nextQuestion();
+          return;
         }
       }
       
@@ -319,15 +331,61 @@ class TestManager {
       if (progressElement && remaining > 0) {
         const progressBar = progressElement.querySelector('.progress-bar');
         if (progressBar) {
-          const percentage = ((totalDuration - elapsed) / totalDuration) * 100;
+          const percentage = (remaining / totalDuration) * 100;
           progressBar.style.width = `${Math.max(0, percentage)}%`;
+          
+          // Update progress bar color
+          progressBar.classList.remove('progress-warning', 'progress-critical', 'progress-normal');
+          if (percentage <= 12.5) { // Last 5 seconds of 40
+            progressBar.classList.add('progress-critical');
+          } else if (percentage <= 25) { // Last 10 seconds of 40
+            progressBar.classList.add('progress-warning');
+          } else {
+            progressBar.classList.add('progress-normal');
+          }
         }
       }
+      
+      // Update circular progress
+      this.updateCircularProgress(remaining);
       
       // Update time spent
       const elapsedSeconds = Math.floor(elapsed / 1000);
       this.stateManager.updateTimeSpent(this.stateManager.getCurrentQuestion(), elapsedSeconds);
     }, 1000);
+  }
+  
+  // Update circular progress indicator
+  updateCircularProgress(remaining) {
+    try {
+      const circularProgress = document.getElementById('question-timer-circle');
+      const circularText = document.querySelector('.circular-timer-text');
+      
+      if (circularProgress) {
+        const totalTime = 40 * 1000; // 40 seconds in milliseconds
+        const percentage = Math.max(0, (remaining / totalTime));
+        const circumference = 2 * Math.PI * 45; // radius = 45
+        const dashOffset = circumference * (1 - percentage);
+        
+        circularProgress.style.strokeDashoffset = dashOffset;
+        
+        // Update color based on remaining time
+        if (remaining <= 5000) { // Last 5 seconds
+          circularProgress.style.stroke = '#dc3545'; // Red
+        } else if (remaining <= 10000) { // Last 10 seconds
+          circularProgress.style.stroke = '#ffc107'; // Yellow
+        } else {
+          circularProgress.style.stroke = '#1FB8CD'; // Teal
+        }
+      }
+      
+      if (circularText) {
+        const secondsRemaining = Math.max(0, Math.ceil(remaining / 1000));
+        circularText.textContent = secondsRemaining;
+      }
+    } catch (error) {
+      console.error('Update circular progress error:', error);
+    }
   }
 
   // Start basic question timer
@@ -343,10 +401,37 @@ class TestManager {
       return;
     }
     
+    // Use 40 seconds for question timer
+    const totalDuration = 40 * 1000; // 40 seconds
+    
     this.questionTimer = setInterval(() => {
       const elapsed = Date.now() - this.questionStartTime;
-      const timeString = this.formatTime(elapsed);
-      timerElement.textContent = timeString;
+      const remaining = totalDuration - elapsed;
+      
+      if (remaining > 0) {
+        const timeString = this.formatTime(remaining);
+        timerElement.textContent = timeString;
+        
+        // Update warning classes
+        timerElement.classList.remove('warning', 'danger', 'timer-warning', 'timer-critical', 'timer-normal');
+        if (remaining < 5000) { // Last 5 seconds
+          timerElement.classList.add('danger', 'timer-critical');
+        } else if (remaining < 10000) { // Last 10 seconds
+          timerElement.classList.add('warning', 'timer-warning');
+        } else {
+          timerElement.classList.add('timer-normal');
+        }
+      } else {
+        timerElement.textContent = 'Time Up!';
+        timerElement.classList.add('danger', 'timer-critical');
+        
+        // Auto move to next question
+        this.nextQuestion();
+        return;
+      }
+      
+      // Update circular progress
+      this.updateCircularProgress(remaining);
       
       // Update time spent
       const elapsedSeconds = Math.floor(elapsed / 1000);
@@ -816,6 +901,9 @@ class TestManager {
       this.drawTopicChart(results.topicStats);
       this.drawDifficultyChart(results.difficultyStats);
       
+      // Phase 4: Generate and display advanced analytics
+      this.generateAndDisplayAdvancedAnalytics(results);
+      
       // Display analysis
       this.displayAnalysis(results);
       
@@ -1125,9 +1213,24 @@ class TestManager {
     const state = this.stateManager.getState();
     return state.customQuestions || window.DEFAULT_QUESTIONS || [];
   }
+
+  // Phase 4: Generate and display advanced analytics
+  generateAndDisplayAdvancedAnalytics(results) {
+    try {
+      // Access the main app instance to use analytics methods
+      if (window.app && typeof window.app.generateAdvancedAnalytics === 'function') {
+        window.app.generateAdvancedAnalytics(results);
+      } else {
+        console.warn('Advanced analytics not available - app instance not found');
+      }
+    } catch (error) {
+      console.error('Generate advanced analytics error:', error);
+    }
+  }
 }
 
-// Export for use in other modules
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = TestManager;
-}
+// Make TestManager globally available
+window.TestManager = TestManager;
+
+// Export for browser use - attach to window object
+window.TestManager = TestManager;

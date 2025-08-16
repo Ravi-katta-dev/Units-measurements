@@ -16,9 +16,9 @@
             <div class="timer-container">
                 <div class="main-timer" id="main-timer-container">
                     <span class="timer-label">Time Remaining:</span>
-                    <span id="main-timer" class="timer-display">01:00:00</span>
-                    <div id="main-timer-progress" class="progress-container hidden">
-                        <div class="progress-bar"></div>
+                    <span id="main-timer" class="timer-display" role="timer" aria-live="polite" aria-label="Exam time remaining">01:00:00</span>
+                    <div id="main-timer-progress" class="progress-container">
+                        <div class="progress-bar" role="progressbar" aria-label="Exam progress" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
             </div>
@@ -39,20 +39,140 @@
     </div>
 
     <div class="test-content-wrapper">
-        <!-- Question Navigation Sidebar -->
+        <!-- Enhanced Question Navigation Sidebar - Phase 4 -->
         <div id="question-sidebar" class="question-sidebar hidden">
             <div class="sidebar-header">
-                <h3>Questions Overview</h3>
-                <button id="close-sidebar-btn" class="btn btn--ghost btn--sm">×</button>
+                <div class="sidebar-title-section">
+                    <h3>Smart Navigation</h3>
+                    <div class="sidebar-stats">
+                        <span id="answered-count">0</span>/<span id="total-questions">50</span> Completed
+                    </div>
+                </div>
+                <button id="close-sidebar-btn" class="btn btn--ghost btn--sm" aria-label="Close navigation panel">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
             </div>
+            
+            <!-- Advanced Search and Filters -->
+            <div class="sidebar-search">
+                <div class="search-input-wrapper">
+                    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <input type="text" id="question-search" placeholder="Search questions..." 
+                           class="search-input" aria-label="Search questions">
+                    <button id="clear-search" class="search-clear" aria-label="Clear search">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Smart Filter Tabs -->
             <div class="sidebar-filters">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="answered">Answered</button>
-                <button class="filter-btn" data-filter="unanswered">Unanswered</button>
-                <button class="filter-btn" data-filter="bookmarked">Bookmarked</button>
+                <button class="filter-btn active" data-filter="all" aria-label="Show all questions">
+                    <span class="filter-icon">📋</span>
+                    <span class="filter-text">All</span>
+                    <span class="filter-count" id="all-count">50</span>
+                </button>
+                <button class="filter-btn" data-filter="answered" aria-label="Show answered questions">
+                    <span class="filter-icon">✅</span>
+                    <span class="filter-text">Done</span>
+                    <span class="filter-count" id="answered-filter-count">0</span>
+                </button>
+                <button class="filter-btn" data-filter="unanswered" aria-label="Show unanswered questions">
+                    <span class="filter-icon">❓</span>
+                    <span class="filter-text">Pending</span>
+                    <span class="filter-count" id="unanswered-count">50</span>
+                </button>
+                <button class="filter-btn" data-filter="bookmarked" aria-label="Show bookmarked questions">
+                    <span class="filter-icon">🔖</span>
+                    <span class="filter-text">Saved</span>
+                    <span class="filter-count" id="bookmarked-count">0</span>
+                </button>
+                <button class="filter-btn" data-filter="flagged" aria-label="Show flagged questions">
+                    <span class="filter-icon">🚩</span>
+                    <span class="filter-text">Review</span>
+                    <span class="filter-count" id="flagged-count">0</span>
+                </button>
             </div>
-            <div class="question-grid" id="question-grid">
+
+            <!-- Topic-based Grouping -->
+            <div class="topic-groups">
+                <div class="topic-group" data-topic="Basic Dimensions">
+                    <div class="topic-header">
+                        <button class="topic-toggle" aria-expanded="true">
+                            <svg class="topic-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                            <span class="topic-name">Basic Dimensions</span>
+                            <span class="topic-progress">0/15</span>
+                        </button>
+                    </div>
+                    <div class="topic-questions">
+                        <!-- Questions will be populated here -->
+                    </div>
+                </div>
+                <div class="topic-group" data-topic="Unit Systems">
+                    <div class="topic-header">
+                        <button class="topic-toggle" aria-expanded="true">
+                            <svg class="topic-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                            <span class="topic-name">Unit Systems</span>
+                            <span class="topic-progress">0/20</span>
+                        </button>
+                    </div>
+                    <div class="topic-questions">
+                        <!-- Questions will be populated here -->
+                    </div>
+                </div>
+                <div class="topic-group" data-topic="Error Analysis">
+                    <div class="topic-header">
+                        <button class="topic-toggle" aria-expanded="true">
+                            <svg class="topic-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                            <span class="topic-name">Error Analysis</span>
+                            <span class="topic-progress">0/15</span>
+                        </button>
+                    </div>
+                    <div class="topic-questions">
+                        <!-- Questions will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Traditional Grid View (Hidden by default, shown when needed) -->
+            <div class="question-grid hidden" id="question-grid">
                 <!-- Grid items will be populated by JavaScript -->
+            </div>
+
+            <!-- View Toggle -->
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="topics" aria-label="Topic-based view">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    Topics
+                </button>
+                <button class="view-btn" data-view="grid" aria-label="Grid view">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                    </svg>
+                    Grid
+                </button>
             </div>
         </div>
 
@@ -63,9 +183,19 @@
                     <div class="question-status">
                         <div class="question-timer-enhanced">
                             <span class="timer-label-small">Question Time:</span>
-                            <span id="question-timer" class="question-time">00:40</span>
-                            <div id="question-timer-progress" class="progress-container hidden">
-                                <div class="progress-bar"></div>
+                            <span id="question-timer" class="question-time" role="timer" aria-live="polite" aria-label="Time remaining for current question">00:40</span>
+                            <div id="question-timer-progress" class="progress-container">
+                                <div class="progress-bar progress-normal" role="progressbar" aria-label="Question time progress" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <!-- Circular progress indicator for question timer -->
+                            <div class="circular-timer" aria-hidden="true">
+                                <svg class="circular-progress" width="40" height="40" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="45" stroke="#e9ecef" stroke-width="6" fill="transparent"/>
+                                    <circle id="question-timer-circle" cx="50" cy="50" r="45" stroke="#1FB8CD" stroke-width="6" 
+                                            fill="transparent" stroke-linecap="round" 
+                                            style="stroke-dasharray: 283; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear;"/>
+                                </svg>
+                                <span class="circular-timer-text" aria-hidden="true">40</span>
                             </div>
                         </div>
                         <button id="bookmark-btn" class="bookmark-btn" aria-label="Bookmark question">

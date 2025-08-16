@@ -1,0 +1,59 @@
+{
+  "name": "units-measurements-mock-test",
+  "version": "1.0.0",
+  "description": "Units & Measurements Mock Test for RRB exams",
+  "main": "index.html",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint js/**/*.js",
+    "serve": "python3 -m http.server 8000",
+    "build": "echo 'Static HTML project - no build required'"
+  },
+  "keywords": ["rrb", "mock-test", "units", "measurements", "physics"],
+  "author": "RRB Mock Test Platform",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "eslint": "^8.56.0",
+    "@testing-library/jest-dom": "^6.1.5",
+    "@testing-library/dom": "^9.3.4"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": ["<rootDir>/tests/setup.js"],
+    "collectCoverageFrom": [
+      "js/**/*.js",
+      "!js/questions-data.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    }
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es2021": true,
+      "jest": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": 2022,
+      "sourceType": "script"
+    },
+    "rules": {
+      "no-unused-vars": "warn",
+      "no-console": "off"
+    },
+    "globals": {
+      "Chart": "readonly"
+    }
+  }
+}

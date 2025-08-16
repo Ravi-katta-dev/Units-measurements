@@ -231,7 +231,7 @@ class QuestionManager {
         return question.options.indexOf(question.correct_answer);
       }
     } else if (question.type === 'true_false') {
-      const options = question.options || ['True', 'False'];
+      const options = question.options || ['True', 'False']; // eslint-disable-line no-unused-vars
       const correctAnswer = question.correct_answer.toString().toLowerCase();
       return correctAnswer === 'true' ? 0 : 1;
     }
@@ -367,7 +367,5 @@ class QuestionManager {
   }
 }
 
-// Export for use in other files
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = QuestionManager;
-}
+// Export for browser use - attach to window object
+window.QuestionManager = QuestionManager;

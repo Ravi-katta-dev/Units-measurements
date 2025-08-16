@@ -257,7 +257,8 @@ class StateManager {
   }
 }
 
-// Export for use in other modules
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = StateManager;
-}
+// Make StateManager globally available
+window.StateManager = StateManager;
+
+// Export for browser use - attach to window object
+window.StateManager = StateManager;

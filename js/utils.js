@@ -229,23 +229,124 @@ class Utils {
     }
   }
 
+    // Show toast notification (uses UI module if available)
+  static showToast(message, type = 'info', duration = 3000) {
+    if (window.appUI && window.appUI.showToast) {
+      return window.appUI.showToast(message, type, duration);
+    }
+    
+    // Fallback to console
+    console.log(`Toast (${type}): ${message}`);
+    
+    // In development, show alert for important messages
+    if (Utils.isDevelopment() && (type === 'error' || type === 'warning')) {
+      alert(`${type.toUpperCase()}: ${message}`);
+    }
+  }
+
+
   // Show success message
   static showSuccess(message, title = 'Success') {
     console.log(`${title}: ${message}`);
     
-    // In development, show alert
-    if (Utils.isDevelopment()) {
-      alert(`${title}: ${message}`);
+    // Use toast if available
+    if (window.appUI && window.appUI.showToast) {
+      window.appUI.showToast(message, 'success', 3000);
+    } else {
+      // In development, show alert
+      if (Utils.isDevelopment()) {
+        alert(`${title}: ${message}`);
+      }
     }
+  }
+
+  // DOM Utilities for performance optimization
+  static getDomCache() {
+    if (!Utils._domCache) {
+      Utils._domCache = new Map();
+    }
+    return Utils._domCache;
+  }
+
+  // Cached DOM query - improves performance by avoiding repetitive queries
+  static getElement(selector, useCache = true) {
+    const domCache = Utils.getDomCache();
+    if (useCache && domCache.has(selector)) {
+      const element = domCache.get(selector);
+      // Verify element is still in DOM
+      if (element && document.contains(element)) {
+        return element;
+      } else {
+        domCache.delete(selector);
+      }
+    }
+
+    const element = document.querySelector(selector);
+    if (element && useCache) {
+      domCache.set(selector, element);
+    }
+    return element;
+  }
+
+  // Cached DOM query for multiple elements
+  static getElements(selector, useCache = false) {
+    const domCache = Utils.getDomCache();
+    if (useCache && domCache.has(selector)) {
+      return domCache.get(selector);
+    }
+
+    const elements = document.querySelectorAll(selector);
+    if (useCache) {
+      domCache.set(selector, elements);
+    }
+    return elements;
+  }
+
+  // Clear DOM cache (useful when DOM structure changes significantly)
+  static clearDOMCache() {
+    Utils.getDomCache().clear();
+  }
+
+  // Batch DOM operations to minimize reflows
+  static batchDOMUpdates(updateFn) {
+    // Use requestAnimationFrame to batch DOM updates
+    return new Promise(resolve => {
+      requestAnimationFrame(() => {
+        const result = updateFn();
+        resolve(result);
+      });
+    });
+  }
+
+
+
+  // Performance monitoring utility
+  static getPerformanceMonitor() {
+    if (!Utils._performanceMonitor) {
+      Utils._performanceMonitor = {
+        timers: new Map(),
+        
+        start(label) {
+          this.timers.set(label, performance.now());
+        },
+        
+        end(label, logResult = true) {
+          const startTime = this.timers.get(label);
+          if (startTime) {
+            const duration = performance.now() - startTime;
+            this.timers.delete(label);
+            if (logResult) {
+              console.log(`Performance: ${label} took ${duration.toFixed(2)}ms`);
+            }
+            return duration;
+          }
+          return null;
+        }
+      };
+    }
+    return Utils._performanceMonitor;
   }
 }
 
-// Export for use in other modules
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = Utils;
-}
-
-// Also expose as global for backward compatibility
-if (typeof window !== 'undefined') {
-  window.Utils = Utils;
-}
+// Export for browser use - attach to window object
+window.Utils = Utils;
