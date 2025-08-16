@@ -2954,10 +2954,26 @@ input, button, textarea, select {
 .progress-normal {
   background: linear-gradient(90deg, var(--color-primary), var(--color-primary-hover)) !important;
 }
-
 /* =======================================
    Modal System
    ======================================= */
+
+:root {
+  /* Modal backdrop overlay color for light mode */
+  --color-overlay: rgba(0, 0, 0, 0.35);
+}
+
+/* Dark mode override for modal backdrop */
+[data-color-scheme="dark"] {
+  --color-overlay: rgba(0, 0, 0, 0.65);
+}
+
+/* Optional: system dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-overlay: rgba(0, 0, 0, 0.65);
+  }
+}
 
 .modal {
   position: fixed;
