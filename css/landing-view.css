@@ -157,18 +157,25 @@
   text-align: center;
 }
 
-/* Grid-based Configuration */
+/* Compact flex for settings grid */
 .settings-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--space-6);
   margin-bottom: var(--space-8);
+  justify-content: flex-start;
+  align-items: stretch;
 }
 
 .setting-group {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-2);
+  min-width: 240px;
+  flex: 1 1 240px;
+  background: none;
+  box-shadow: none;
+  padding: 0;
 }
 
 .setting-label {
@@ -178,7 +185,7 @@
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   color: var(--color-text);
-  margin-bottom: var(--space-2);
+  margin-bottom: 4px;
 }
 
 .setting-label svg {
@@ -186,6 +193,27 @@
   height: var(--icon-base);
   color: var(--color-primary);
   flex-shrink: 0;
+}
+
+.setting-desc {
+  font-size: 0.96rem;
+  color: var(--color-text-secondary, #aaa);
+  margin-bottom: 2px;
+  margin-left: 28px; /* align with label icon */
+  text-align: left;
+}
+
+.form-control {
+  min-width: 180px;
+  padding: 7px 12px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--color-border, #333);
+  background: var(--color-surface, #181A20);
+  color: var(--color-text, #eee);
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Custom Duration Inputs */
@@ -251,228 +279,56 @@
 }
 
 /* =======================================
-   Enhanced Options & Checkboxes
+   File Upload Section (JSON)
    ======================================= */
 
-.options-section {
-  border-top: 1px solid var(--color-border);
-  padding-top: var(--space-6);
-}
-
-.options-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--space-4);
-}
-
-.option-item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-4);
-  background: var(--color-surface);
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  cursor: pointer;
-  transition: var(--transition-all);
-  user-select: none;
-}
-
-.option-item:hover {
-  border-color: var(--color-primary);
-  background: var(--color-primary-lighter);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
-}
-
-.option-item.checked {
-  border-color: var(--color-primary);
-  background: var(--color-primary-lighter);
-  box-shadow: var(--shadow-primary);
-}
-
-/* Custom Checkbox Implementation */
-.custom-checkbox {
-  position: relative;
-  width: 24px;
-  height: 24px;
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: var(--color-surface);
-  transition: var(--transition-colors);
-  flex-shrink: 0;
-}
-
-.option-item:hover .custom-checkbox {
-  border-color: var(--color-primary);
-}
-
-.option-item.checked .custom-checkbox {
-  background: var(--color-primary);
-  border-color: var(--color-primary);
-}
-
-.custom-checkbox::after {
-  content: '';
-  position: absolute;
-  left: 7px;
-  top: 3px;
-  width: 6px;
-  height: 10px;
-  border: solid var(--color-white);
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-  opacity: 0;
-  transition: var(--transition-opacity);
-}
-
-.option-item.checked .custom-checkbox::after {
-  opacity: 1;
-}
-
-.option-item input[type="checkbox"] {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.option-text {
-  flex: 1;
-}
-
-.option-title {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text);
-  margin-bottom: var(--space-1);
-}
-
-.option-description {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
-  line-height: var(--line-height-relaxed);
-}
-
-/* =======================================
-   JSON Upload Section
-   ======================================= */
-
-.json-upload-section {
-  display: none;
+.file-upload-area {
+  width: 100%;
   padding: var(--space-6);
-  border: 2px dashed var(--color-border);
+  border: 2px dashed var(--color-border, #333);
   border-radius: var(--radius-lg);
-  background: var(--color-surface-secondary);
+  background: var(--color-surface-secondary, #181A20);
   text-align: center;
   margin-top: var(--space-4);
+  cursor: pointer;
   transition: var(--transition-all);
+  position: relative;
 }
 
-.json-upload-section.show {
-  display: block;
-  animation: fadeInSlideUp var(--duration-300) var(--ease-out);
+.file-upload-area:hover {
+  border-color: var(--color-primary, #1FB8CD);
+  background: var(--color-primary-lighter, #222);
 }
 
-@keyframes fadeInSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.file-upload-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
 }
 
-.json-upload-section:hover {
-  border-color: var(--color-primary);
-  background: var(--color-primary-lighter);
-}
-
-.upload-icon {
-  width: 48px;
-  height: 48px;
-  margin: 0 auto var(--space-4);
-  color: var(--color-primary);
-}
-
-.upload-text {
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text);
+.file-upload-display svg {
   margin-bottom: var(--space-2);
 }
 
-.upload-description {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
-  margin-bottom: var(--space-4);
+.file-upload-display span {
+  font-size: 1rem;
+  color: var(--color-text-secondary, #aaa);
 }
 
 .file-input {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.file-upload-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-3) var(--space-6);
-  background: var(--color-primary);
-  color: var(--color-white);
-  border: none;
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  cursor: pointer;
-  transition: var(--transition-button);
-}
-
-.file-upload-btn:hover {
-  background: var(--color-primary-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
-}
-
-/* Question Count Display */
-.question-count-display {
-  margin-top: var(--space-4);
-  padding: var(--space-4);
-  background: var(--color-success-lighter);
-  border: 1px solid var(--color-success);
-  border-radius: var(--radius-md);
   display: none;
-}
-
-.question-count-display.show {
-  display: block;
-  animation: fadeInSlideUp var(--duration-300) var(--ease-out);
-}
-
-.question-count-text {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-success);
-  text-align: center;
 }
 
 /* =======================================
    Enhanced Start Button
    ======================================= */
 
-.action-buttons {
-  display: flex;
-  gap: var(--space-4);
-  justify-content: center;
-  flex-wrap: wrap;
+.start-button-container {
+  margin-top: var(--space-8);
 }
 
-.start-test-btn {
+.btn--primary {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -493,126 +349,21 @@
   justify-content: center;
 }
 
-.start-test-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left var(--duration-500) var(--ease-out);
-}
-
-.start-test-btn:hover {
+.btn--primary:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-xl);
   background: linear-gradient(135deg, var(--color-primary-hover), var(--color-primary-active));
 }
 
-.start-test-btn:hover::before {
-  left: 100%;
-}
-
-.start-test-btn:active {
+.btn--primary:active {
   transform: translateY(0);
   box-shadow: var(--shadow-lg);
 }
 
-.start-test-btn svg {
+.btn--primary svg {
   width: var(--icon-lg);
   height: var(--icon-lg);
   flex-shrink: 0;
-}
-
-/* Button Loading State */
-.start-test-btn.loading {
-  pointer-events: none;
-  opacity: 0.8;
-}
-
-.start-test-btn.loading::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 20px;
-  height: 20px;
-  border: 2px solid transparent;
-  border-top: 2px solid var(--color-white);
-  border-radius: 50%;
-  animation: button-loading 1s linear infinite;
-}
-
-@keyframes button-loading {
-  to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-/* =======================================
-   Instructions Panel
-   ======================================= */
-
-.instructions {
-  max-width: 600px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-6);
-  margin: var(--space-8) auto;
-  box-shadow: var(--shadow-card);
-  text-align: left;
-}
-
-.instructions h3 {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text);
-  margin-bottom: var(--space-4);
-  text-align: center;
-  border-bottom: 1px solid var(--color-border);
-  padding-bottom: var(--space-4);
-}
-
-.instructions ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.instructions li {
-  position: relative;
-  padding: var(--space-3) 0;
-  padding-left: var(--space-8);
-  color: var(--color-text-secondary);
-  line-height: var(--line-height-relaxed);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.instructions li:last-child {
-  border-bottom: none;
-}
-
-.instructions li::before {
-  content: counter(instruction-counter);
-  counter-increment: instruction-counter;
-  position: absolute;
-  left: 0;
-  top: var(--space-3);
-  width: var(--space-6);
-  height: var(--space-6);
-  background: var(--color-primary);
-  color: var(--color-white);
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-bold);
-}
-
-.instructions {
-  counter-reset: instruction-counter;
 }
 
 /* =======================================
@@ -638,12 +389,13 @@
   }
   
   .settings-grid {
-    grid-template-columns: 1fr;
+    flex-direction: column;
     gap: var(--space-4);
   }
   
-  .options-grid {
-    grid-template-columns: 1fr;
+  .setting-group {
+    min-width: 0;
+    width: 100%;
   }
   
   .test-info {
@@ -651,13 +403,11 @@
     align-items: center;
   }
   
-  .action-buttons {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+  .start-button-container {
+    margin-top: var(--space-6);
   }
   
-  .start-test-btn {
+  .btn--primary {
     width: 100%;
     max-width: 300px;
   }
@@ -691,19 +441,14 @@
     width: 100%;
   }
   
-  .instructions {
-    margin: var(--space-6) auto;
-    padding: var(--space-4);
-  }
-  
-  .start-test-btn {
+  .btn--primary {
     font-size: var(--font-size-base);
     padding: var(--space-3) var(--space-6);
   }
 }
 
 /* =======================================
-   Enhanced Animations & Effects
+   Animations & Effects
    ======================================= */
 
 /* Smooth entrance animation for the entire landing */
@@ -745,7 +490,7 @@
 }
 
 /* Pulse effect for important elements */
-.start-test-btn {
+.btn--primary {
   animation: subtlePulse 4s ease-in-out infinite;
 }
 
