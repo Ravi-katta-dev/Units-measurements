@@ -1064,9 +1064,16 @@ class TestManager {
         const question = currentQuestions[i];
         const userAnswer = state.answers[i];
         const isCorrect = userAnswer !== null && userAnswer !== undefined && userAnswer === question.correctIndex;
+        const isIncorrect = userAnswer !== null && userAnswer !== undefined && !isCorrect;
         const timeSpent = state.timeSpent[i] || 0;
         
-        if (isCorrect) results.score++;
+        // Apply scoring based on negative marking setting
+        if (isCorrect) {
+          results.score += 1;
+        } else if (isIncorrect && state.negativeMarking) {
+          results.score -= 0.33;
+        }
+        // No score change for unanswered questions
         
         results.questionResults.push({
           questionId: i + 1,
@@ -1120,10 +1127,22 @@ class TestManager {
       
       const scorePercentage = Math.round((results.score / results.totalQuestions) * 100);
       
+      // Format score display - show decimal places if negative marking is enabled
+      const state = this.stateManager.getState();
+      const scoreDisplay = state.negativeMarking ? 
+        `${results.score.toFixed(2)}/${results.totalQuestions}` : 
+        `${Math.round(results.score)}/${results.totalQuestions}`;
+      
       // Update score display
       this.viewManager.updateElement('score-percentage', `${scorePercentage}%`);
-      this.viewManager.updateElement('correct-answers', `${results.score}/${results.totalQuestions}`);
+      this.viewManager.updateElement('correct-answers', scoreDisplay);
       this.viewManager.updateElement('total-time', this.formatTime(results.totalTime));
+      
+      // Show/hide negative marking indicator
+      const negativeMarkingIndicator = document.getElementById('negative-marking-indicator');
+      if (negativeMarkingIndicator) {
+        negativeMarkingIndicator.style.display = state.negativeMarking ? 'block' : 'none';
+      }
       
       const avgTime = Math.round(results.totalTime / results.totalQuestions);
       this.viewManager.updateElement('avg-time', this.formatTime(avgTime));
@@ -1370,8 +1389,8 @@ class TestManager {
     }
   }
 
-  // Populate results table (unchanged)
-  populateResultsTable(questionResults) {
+  // Populate results table (with filtering support)
+  populateResultsTable(questionResults, filter = 'all') {
     if (!questionResults) return;
     
     try {
@@ -1380,19 +1399,59 @@ class TestManager {
       
       tbody.innerHTML = '';
       
-      questionResults.forEach(result => {
+      // Filter the results based on the selected filter
+      const filteredResults = this.filterQuestionResults(questionResults, filter);
+      
+      filteredResults.forEach(result => {
         const row = tbody.insertRow();
         row.innerHTML = `
-          <td>${result.questionId}</td>
+          <td class="question-number-cell">
+            <span class="question-number-link" data-question="${result.questionId}">${result.questionId}</span>
+          </td>
           <td>${result.topic}</td>
           <td>${result.difficulty}</td>
           <td class="${result.status}-status">${result.status.charAt(0).toUpperCase() + result.status.slice(1)}</td>
           <td>${this.formatTime(result.timeSpent * 1000)}</td>
         `;
       });
+
+      // Add click event listeners to question numbers
+      const questionLinks = tbody.querySelectorAll('.question-number-link');
+      questionLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const questionNumber = parseInt(link.getAttribute('data-question'));
+          // Access the app instance to call jumpToQuestion
+          if (window.app && typeof window.app.jumpToQuestion === 'function') {
+            window.app.jumpToQuestion(questionNumber);
+          }
+        });
+      });
     } catch (error) {
       console.error('Populate results table error:', error);
     }
+  }
+
+  // Filter question results based on the selected filter
+  filterQuestionResults(questionResults, filter) {
+    if (!questionResults || filter === 'all') {
+      return questionResults;
+    }
+    
+    return questionResults.filter(result => {
+      switch (filter) {
+        case 'correct':
+          return result.status === 'correct';
+        case 'incorrect':
+          return result.status === 'incorrect';
+        case 'answered':
+          return result.status === 'correct' || result.status === 'incorrect';
+        case 'unanswered':
+          return result.status === 'unanswered';
+        default:
+          return true;
+      }
+    });
   }
 
   // Populate review answers for review view (unchanged)

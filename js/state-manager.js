@@ -30,6 +30,7 @@ class StateManager {
       isRRBMode: false,
       isDarkMode: false,
       enhancedTimer: false,
+      negativeMarking: false,
       reviewCurrentQ: 0,
       results: null,
       questionSource: 'default',
@@ -231,6 +232,10 @@ class StateManager {
       timeSpent: Array(questionCount).fill(0),
       currentQ: 0
     });
+  }
+
+  setNegativeMarking(enabled) {
+    this.updateState({ negativeMarking: enabled });
   }
 
   // Start a new test

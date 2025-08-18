@@ -112,6 +112,11 @@ class MockTestApp {
       enhancedTimer.addEventListener('change', (e) => this.toggleEnhancedTimer(e));
     }
 
+    const negativeMarking = document.getElementById('negative-marking');
+    if (negativeMarking) {
+      negativeMarking.addEventListener('change', (e) => this.toggleNegativeMarking(e));
+    }
+
     // Question source and JSON upload
     const questionSource = document.getElementById('question-source');
     if (questionSource) {
@@ -249,6 +254,15 @@ class MockTestApp {
     if (backHomeBtn) {
       backHomeBtn.addEventListener('click', () => this.backToHome());
     }
+
+    // Filter buttons for results table
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        const filter = e.target.getAttribute('data-filter');
+        this.applyResultsFilter(filter);
+      });
+    });
   }
 
   // Setup review answers view event listeners
@@ -452,6 +466,31 @@ class MockTestApp {
     }
   }
 
+  // Jump directly to a specific question in review view
+  jumpToQuestion(questionNumber) {
+    try {
+      const currentQuestions = this.getCurrentQuestions();
+      // Convert 1-indexed question number to 0-indexed array position
+      const questionIndex = questionNumber - 1;
+      
+      if (questionIndex >= 0 && questionIndex < currentQuestions.length) {
+        // Initialize review if not already done
+        this.testManager.initializeReview();
+        
+        // Switch to review answers view
+        this.viewManager.showView('review-answers');
+        
+        // Set the current review question and update display
+        this.stateManager.updateState({ reviewCurrentQ: questionIndex });
+        this.updateReviewDisplay(questionIndex);
+      } else {
+        console.error('Invalid question number:', questionNumber);
+      }
+    } catch (error) {
+      console.error('Jump to question error:', error);
+    }
+  }
+
   // Update review display for current question
   updateReviewDisplay(questionIndex) {
     try {
@@ -625,6 +664,16 @@ class MockTestApp {
     }
   }
 
+  // Toggle negative marking
+  toggleNegativeMarking(event) {
+    try {
+      const negativeMarking = event.target.checked;
+      this.stateManager.setNegativeMarking(negativeMarking);
+    } catch (error) {
+      console.error('Toggle negative marking error:', error);
+    }
+  }
+
   // Toggle question source
   toggleQuestionSource(event) {
     try {
@@ -761,6 +810,29 @@ class MockTestApp {
     } catch (error) {
       console.error('Export results error:', error);
       this.showError('Failed to export results');
+    }
+  }
+
+  // Apply filter to results table
+  applyResultsFilter(filter) {
+    try {
+      // Update active filter button
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('filter-btn--active');
+      });
+      
+      const activeButton = document.querySelector(`[data-filter="${filter}"]`);
+      if (activeButton) {
+        activeButton.classList.add('filter-btn--active');
+      }
+      
+      // Get current results and re-populate table with filter
+      const results = this.stateManager.getResults();
+      if (results && results.questionResults) {
+        this.testManager.populateResultsTable(results.questionResults, filter);
+      }
+    } catch (error) {
+      console.error('Apply results filter error:', error);
     }
   }
 

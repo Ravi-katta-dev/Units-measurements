@@ -21,6 +21,10 @@
                         <span class="score-value" id="avg-time">00:00</span>
                         <span class="score-label">Avg/Question</span>
                     </div>
+                    <div class="score-item" id="negative-marking-indicator" style="display: none;">
+                        <span class="score-value">-0.33</span>
+                        <span class="score-label">Per Incorrect</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -69,6 +73,13 @@
 
             <div class="detailed-results">
                 <h3>Question-wise Analysis</h3>
+                <div class="results-filter-controls">
+                    <button id="filter-all" class="filter-btn filter-btn--active" data-filter="all">All</button>
+                    <button id="filter-correct" class="filter-btn" data-filter="correct">Correct</button>
+                    <button id="filter-incorrect" class="filter-btn" data-filter="incorrect">Incorrect</button>
+                    <button id="filter-answered" class="filter-btn" data-filter="answered">Answered</button>
+                    <button id="filter-unanswered" class="filter-btn" data-filter="unanswered">Unanswered</button>
+                </div>
                 <div class="results-table-container">
                     <table id="results-table" class="results-table">
                         <thead>
