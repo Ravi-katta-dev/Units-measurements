@@ -90,23 +90,24 @@
                     </label>
                     <select id="question-source" class="form-control">
                         <option value="default">Default Questions (50 questions)</option>
-                        <option value="json">Upload JSON File</option>
+                        <option value="json">Upload JSON/TXT File</option>
                     </select>
                 </div>
                 
                 <div id="json-upload-section" class="setting-group hidden">
-                    <label for="json-file" class="setting-label">Upload Questions JSON:</label>
+                    <label for="json-file" class="setting-label">Upload Questions (JSON/TXT):</label>
                     <div class="file-upload-area">
-                        <input type="file" id="json-file" accept=".json" class="file-input">
+                        <input type="file" id="json-file" accept=".json,.txt" class="file-input">
                         <div class="file-upload-display">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="7,10 12,15 17,10"></polyline>
                                 <line x1="12" y1="15" x2="12" y2="3"></line>
                             </svg>
-                            <span>Drop JSON file here or click to browse</span>
+                            <span>Drop JSON/TXT file here or click to browse</span>
                         </div>
                     </div>
+                    <div id="json-status" class="json-status hidden"></div>
                 </div>
             </div>
 

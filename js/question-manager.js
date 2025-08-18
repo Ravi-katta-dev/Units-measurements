@@ -266,6 +266,8 @@ class QuestionManager {
   async loadFromFile(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
+      const fileName = file.name;
+      const fileExtension = fileName.split('.').pop().toLowerCase();
       
       reader.onload = (event) => {
         try {
@@ -275,12 +277,23 @@ class QuestionManager {
           resolve({
             success: true,
             questions: questions,
-            count: questions.length
+            count: questions.length,
+            fileType: fileExtension
           });
         } catch (error) {
+          // Enhance error message with file type and context
+          let errorMessage = error.message;
+          
+          if (error instanceof SyntaxError) {
+            errorMessage = `Invalid JSON format in ${fileExtension.toUpperCase()} file. Please ensure the file contains valid JSON data.`;
+          } else if (error.message.includes('Validation failed')) {
+            errorMessage = `${fileExtension.toUpperCase()} file validation failed: ${error.message.replace('Validation failed:\n', '')}`;
+          }
+          
           reject({
             success: false,
-            error: error.message
+            error: errorMessage,
+            fileType: fileExtension
           });
         }
       };
@@ -288,7 +301,8 @@ class QuestionManager {
       reader.onerror = () => {
         reject({
           success: false,
-          error: 'Failed to read file'
+          error: `Failed to read ${fileExtension.toUpperCase()} file`,
+          fileType: fileExtension
         });
       };
       

@@ -639,10 +639,27 @@ class MockTestApp {
       return;
     }
 
+    // File type validation
+    const fileName = file.name.toLowerCase();
+    const fileExtension = fileName.split('.').pop();
+    const allowedExtensions = ['json', 'txt'];
+    
+    if (!allowedExtensions.includes(fileExtension)) {
+      if (statusElement) {
+        statusElement.classList.remove('hidden', 'success', 'loading');
+        statusElement.classList.add('error');
+        statusElement.innerHTML = `
+          <div>❌ Invalid file type:</div>
+          <ul><li>Only .json and .txt files are supported</li></ul>
+        `;
+      }
+      return;
+    }
+
     try {
       if (statusElement) {
         statusElement.classList.remove('hidden', 'success', 'error');
-        statusElement.innerHTML = '<div class="loading">Processing JSON file...</div>';
+        statusElement.innerHTML = `<div class="loading">Processing ${fileExtension.toUpperCase()} file...</div>`;
       }
 
       const result = await this.questionManager.loadFromFile(file);
@@ -652,18 +669,18 @@ class MockTestApp {
 
         if (statusElement) {
           statusElement.classList.add('success');
-          statusElement.innerHTML = `<div>✅ Successfully loaded ${result.count} questions from JSON file</div>`;
+          statusElement.innerHTML = `<div>✅ Successfully loaded ${result.count} questions from ${fileExtension.toUpperCase()} file</div>`;
         }
 
         this.viewManager.updateQuestionCount(this.stateManager.getState());
       }
     } catch (error) {
-      console.error('JSON upload error:', error);
+      console.error('File upload error:', error);
       
       if (statusElement) {
         statusElement.classList.add('error');
         statusElement.innerHTML = `
-          <div>❌ Failed to load JSON file:</div>
+          <div>❌ Failed to load ${fileExtension.toUpperCase()} file:</div>
           <ul><li>${error.error || error.message}</li></ul>
         `;
       }
