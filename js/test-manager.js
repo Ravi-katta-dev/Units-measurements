@@ -1383,12 +1383,27 @@ class TestManager {
       questionResults.forEach(result => {
         const row = tbody.insertRow();
         row.innerHTML = `
-          <td>${result.questionId}</td>
+          <td class="question-number-cell">
+            <span class="question-number-link" data-question="${result.questionId}">${result.questionId}</span>
+          </td>
           <td>${result.topic}</td>
           <td>${result.difficulty}</td>
           <td class="${result.status}-status">${result.status.charAt(0).toUpperCase() + result.status.slice(1)}</td>
           <td>${this.formatTime(result.timeSpent * 1000)}</td>
         `;
+      });
+
+      // Add click event listeners to question numbers
+      const questionLinks = tbody.querySelectorAll('.question-number-link');
+      questionLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const questionNumber = parseInt(link.getAttribute('data-question'));
+          // Access the app instance to call jumpToQuestion
+          if (window.app && typeof window.app.jumpToQuestion === 'function') {
+            window.app.jumpToQuestion(questionNumber);
+          }
+        });
       });
     } catch (error) {
       console.error('Populate results table error:', error);

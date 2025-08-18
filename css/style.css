@@ -1510,6 +1510,34 @@ body {
   color: var(--color-text-secondary);
 }
 
+/* Clickable question numbers in results table */
+.question-number-cell {
+  text-align: center;
+}
+
+.question-number-link {
+  color: var(--color-primary);
+  cursor: pointer;
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  display: inline-block;
+  min-width: 2em;
+}
+
+.question-number-link:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(var(--color-primary-rgb), 0.3);
+}
+
+.question-number-link:active {
+  transform: translateY(0);
+}
+
 .result-actions {
   display: flex;
   gap: var(--space-16);

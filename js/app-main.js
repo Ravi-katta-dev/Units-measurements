@@ -452,6 +452,31 @@ class MockTestApp {
     }
   }
 
+  // Jump directly to a specific question in review view
+  jumpToQuestion(questionNumber) {
+    try {
+      const currentQuestions = this.getCurrentQuestions();
+      // Convert 1-indexed question number to 0-indexed array position
+      const questionIndex = questionNumber - 1;
+      
+      if (questionIndex >= 0 && questionIndex < currentQuestions.length) {
+        // Initialize review if not already done
+        this.testManager.initializeReview();
+        
+        // Switch to review answers view
+        this.viewManager.showView('review-answers');
+        
+        // Set the current review question and update display
+        this.stateManager.updateState({ reviewCurrentQ: questionIndex });
+        this.updateReviewDisplay(questionIndex);
+      } else {
+        console.error('Invalid question number:', questionNumber);
+      }
+    } catch (error) {
+      console.error('Jump to question error:', error);
+    }
+  }
+
   // Update review display for current question
   updateReviewDisplay(questionIndex) {
     try {
