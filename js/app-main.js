@@ -195,6 +195,12 @@ class MockTestApp {
       submitBtn.addEventListener('click', () => this.testManager.submitTest());
     }
 
+    // Exit exam button
+    const exitBtn = document.getElementById('exit-exam-btn');
+    if (exitBtn) {
+      exitBtn.addEventListener('click', () => this.exitExam());
+    }
+
     // Review panel specific event listeners
     this.setupReviewPanelEventListeners();
   }
@@ -226,10 +232,10 @@ class MockTestApp {
       });
     }
 
-    // Restart test button
-    const restartBtn = document.getElementById('restart-test-btn');
-    if (restartBtn) {
-      restartBtn.addEventListener('click', () => this.restartTest());
+    // Start new test button (was restart-test-btn, corrected to match HTML)
+    const newTestBtn = document.getElementById('new-test-btn');
+    if (newTestBtn) {
+      newTestBtn.addEventListener('click', () => this.restartTest());
     }
 
     // Export results button
@@ -401,6 +407,31 @@ class MockTestApp {
       this.updateUI();
     } catch (error) {
       console.error('Back to home error:', error);
+    }
+  }
+
+  // Exit exam (with confirmation)
+  exitExam() {
+    if (!confirm('Are you sure you want to exit the exam? Your progress will be saved.')) {
+      return;
+    }
+    
+    try {
+      // Stop timers
+      if (this.testManager) {
+        this.testManager.stopAllTimers();
+        this.testManager.clearAutoSave();
+      }
+      
+      // Save current state
+      this.stateManager.saveState();
+      
+      // Go back to landing page
+      this.viewManager.showView('landing');
+      this.updateUI();
+    } catch (error) {
+      console.error('Exit exam error:', error);
+      this.showError('Failed to exit exam');
     }
   }
 
