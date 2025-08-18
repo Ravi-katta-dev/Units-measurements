@@ -1064,9 +1064,16 @@ class TestManager {
         const question = currentQuestions[i];
         const userAnswer = state.answers[i];
         const isCorrect = userAnswer !== null && userAnswer !== undefined && userAnswer === question.correctIndex;
+        const isIncorrect = userAnswer !== null && userAnswer !== undefined && !isCorrect;
         const timeSpent = state.timeSpent[i] || 0;
         
-        if (isCorrect) results.score++;
+        // Apply scoring based on negative marking setting
+        if (isCorrect) {
+          results.score += 1;
+        } else if (isIncorrect && state.negativeMarking) {
+          results.score -= 0.33;
+        }
+        // No score change for unanswered questions
         
         results.questionResults.push({
           questionId: i + 1,
@@ -1120,10 +1127,22 @@ class TestManager {
       
       const scorePercentage = Math.round((results.score / results.totalQuestions) * 100);
       
+      // Format score display - show decimal places if negative marking is enabled
+      const state = this.stateManager.getState();
+      const scoreDisplay = state.negativeMarking ? 
+        `${results.score.toFixed(2)}/${results.totalQuestions}` : 
+        `${Math.round(results.score)}/${results.totalQuestions}`;
+      
       // Update score display
       this.viewManager.updateElement('score-percentage', `${scorePercentage}%`);
-      this.viewManager.updateElement('correct-answers', `${results.score}/${results.totalQuestions}`);
+      this.viewManager.updateElement('correct-answers', scoreDisplay);
       this.viewManager.updateElement('total-time', this.formatTime(results.totalTime));
+      
+      // Show/hide negative marking indicator
+      const negativeMarkingIndicator = document.getElementById('negative-marking-indicator');
+      if (negativeMarkingIndicator) {
+        negativeMarkingIndicator.style.display = state.negativeMarking ? 'block' : 'none';
+      }
       
       const avgTime = Math.round(results.totalTime / results.totalQuestions);
       this.viewManager.updateElement('avg-time', this.formatTime(avgTime));

@@ -112,6 +112,11 @@ class MockTestApp {
       enhancedTimer.addEventListener('change', (e) => this.toggleEnhancedTimer(e));
     }
 
+    const negativeMarking = document.getElementById('negative-marking');
+    if (negativeMarking) {
+      negativeMarking.addEventListener('change', (e) => this.toggleNegativeMarking(e));
+    }
+
     // Question source and JSON upload
     const questionSource = document.getElementById('question-source');
     if (questionSource) {
@@ -656,6 +661,16 @@ class MockTestApp {
       this.stateManager.updateState({ enhancedTimer });
     } catch (error) {
       console.error('Toggle enhanced timer error:', error);
+    }
+  }
+
+  // Toggle negative marking
+  toggleNegativeMarking(event) {
+    try {
+      const negativeMarking = event.target.checked;
+      this.stateManager.setNegativeMarking(negativeMarking);
+    } catch (error) {
+      console.error('Toggle negative marking error:', error);
     }
   }
 
