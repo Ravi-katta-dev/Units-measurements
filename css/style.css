@@ -1399,6 +1399,25 @@ body {
   color: var(--color-text);
 }
 
+.chart-container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  min-height: 250px;
+}
+
+.chart-container canvas {
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  width: auto;
+}
+
 .analysis-details {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -1692,6 +1711,12 @@ body {
 
   .charts-container {
     grid-template-columns: 1fr;
+    gap: var(--space-20);
+  }
+
+  .chart-container {
+    height: 250px;
+    min-height: 200px;
   }
 
   .analysis-details {
