@@ -1370,8 +1370,8 @@ class TestManager {
     }
   }
 
-  // Populate results table (unchanged)
-  populateResultsTable(questionResults) {
+  // Populate results table (with filtering support)
+  populateResultsTable(questionResults, filter = 'all') {
     if (!questionResults) return;
     
     try {
@@ -1380,7 +1380,10 @@ class TestManager {
       
       tbody.innerHTML = '';
       
-      questionResults.forEach(result => {
+      // Filter the results based on the selected filter
+      const filteredResults = this.filterQuestionResults(questionResults, filter);
+      
+      filteredResults.forEach(result => {
         const row = tbody.insertRow();
         row.innerHTML = `
           <td class="question-number-cell">
@@ -1408,6 +1411,28 @@ class TestManager {
     } catch (error) {
       console.error('Populate results table error:', error);
     }
+  }
+
+  // Filter question results based on the selected filter
+  filterQuestionResults(questionResults, filter) {
+    if (!questionResults || filter === 'all') {
+      return questionResults;
+    }
+    
+    return questionResults.filter(result => {
+      switch (filter) {
+        case 'correct':
+          return result.status === 'correct';
+        case 'incorrect':
+          return result.status === 'incorrect';
+        case 'answered':
+          return result.status === 'correct' || result.status === 'incorrect';
+        case 'unanswered':
+          return result.status === 'unanswered';
+        default:
+          return true;
+      }
+    });
   }
 
   // Populate review answers for review view (unchanged)

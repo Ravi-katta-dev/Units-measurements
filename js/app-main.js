@@ -249,6 +249,15 @@ class MockTestApp {
     if (backHomeBtn) {
       backHomeBtn.addEventListener('click', () => this.backToHome());
     }
+
+    // Filter buttons for results table
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        const filter = e.target.getAttribute('data-filter');
+        this.applyResultsFilter(filter);
+      });
+    });
   }
 
   // Setup review answers view event listeners
@@ -786,6 +795,29 @@ class MockTestApp {
     } catch (error) {
       console.error('Export results error:', error);
       this.showError('Failed to export results');
+    }
+  }
+
+  // Apply filter to results table
+  applyResultsFilter(filter) {
+    try {
+      // Update active filter button
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('filter-btn--active');
+      });
+      
+      const activeButton = document.querySelector(`[data-filter="${filter}"]`);
+      if (activeButton) {
+        activeButton.classList.add('filter-btn--active');
+      }
+      
+      // Get current results and re-populate table with filter
+      const results = this.stateManager.getResults();
+      if (results && results.questionResults) {
+        this.testManager.populateResultsTable(results.questionResults, filter);
+      }
+    } catch (error) {
+      console.error('Apply results filter error:', error);
     }
   }
 
