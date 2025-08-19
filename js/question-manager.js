@@ -68,6 +68,9 @@ class QuestionManager {
               },
               solution: {
                 type: 'string'
+              },
+              pyq_year: {
+                type: 'string'
               }
             }
           }
@@ -215,7 +218,8 @@ class QuestionManager {
         originalId: question.id,
         points: question.points || 10,
         timeLimit: question.time_limit || 60,
-        type: question.type
+        type: question.type,
+        pyqYear: question.pyq_year || null // Add PYQ support
       };
       
       return parsed;
@@ -330,7 +334,14 @@ class QuestionManager {
         category: q.topic,
         difficulty: q.difficulty.toLowerCase(),
         time_limit: q.timeLimit || 60,
-        solution: q.solution
+        solution: q.solution,
+        pyq_year: q.pyqYear || undefined
+      }).filter(q => {
+        // Remove pyq_year if it's undefined to keep clean JSON
+        if (q.pyq_year === undefined) {
+          delete q.pyq_year;
+        }
+        return true;
       }))
     };
     
@@ -351,7 +362,8 @@ class QuestionManager {
           "category": "SI Units",
           "difficulty": "easy",
           "time_limit": 30,
-          "solution": "The meter (m) is the base unit of length in the International System of Units (SI)."
+          "solution": "The meter (m) is the base unit of length in the International System of Units (SI).",
+          "pyq_year": "RRB ALP & Tech. 23.01.2019 Shift-I"
         },
         {
           "id": "q2",

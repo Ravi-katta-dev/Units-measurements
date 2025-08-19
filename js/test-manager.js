@@ -707,6 +707,9 @@ class TestManager {
       this.viewManager.updateElement('difficulty-badge', question.difficulty);
       this.viewManager.updateElement('topic-badge', question.topic);
       
+      // Handle PYQ display
+      this.updatePYQDisplay(question);
+      
       // Update difficulty badge styling
       const difficultyBadge = document.getElementById('difficulty-badge');
       if (difficultyBadge) {
@@ -1528,6 +1531,113 @@ class TestManager {
     } catch (error) {
       console.error('Error getting current questions:', error);
       return [];
+    }
+  }
+
+  // PYQ-related methods
+  updatePYQDisplay(question) {
+    try {
+      const pyqBadge = document.getElementById('pyq-badge');
+      const pyqInfoPanel = document.getElementById('pyq-info-panel');
+      const pyqYearDisplay = document.getElementById('pyq-year-display');
+
+      if (question.pyqYear) {
+        // Show PYQ badge
+        if (pyqBadge) {
+          pyqBadge.classList.remove('hidden');
+        }
+        
+        // Show PYQ information panel
+        if (pyqInfoPanel) {
+          pyqInfoPanel.classList.remove('hidden');
+        }
+        
+        // Update PYQ year display
+        if (pyqYearDisplay) {
+          pyqYearDisplay.textContent = question.pyqYear;
+        }
+      } else {
+        // Hide PYQ elements for non-PYQ questions
+        if (pyqBadge) {
+          pyqBadge.classList.add('hidden');
+        }
+        
+        if (pyqInfoPanel) {
+          pyqInfoPanel.classList.add('hidden');
+        }
+      }
+    } catch (error) {
+      console.error('Error updating PYQ display:', error);
+    }
+  }
+
+  // Get PYQ statistics
+  getPYQStats() {
+    try {
+      const questions = this.getCurrentQuestions();
+      const pyqQuestions = questions.filter(q => q.pyqYear);
+      const totalQuestions = questions.length;
+      
+      return {
+        total: pyqQuestions.length,
+        percentage: totalQuestions > 0 ? Math.round((pyqQuestions.length / totalQuestions) * 100) : 0,
+        years: [...new Set(pyqQuestions.map(q => q.pyqYear))].sort()
+      };
+    } catch (error) {
+      console.error('Error getting PYQ stats:', error);
+      return { total: 0, percentage: 0, years: [] };
+    }
+  }
+
+  // Filter questions to show only PYQ
+  filterPYQQuestions(showPYQOnly = false) {
+    try {
+      if (!this.isValid()) return;
+
+      const allQuestions = window.DEFAULT_QUESTIONS || [];
+      const state = this.stateManager.getState();
+      
+      if (showPYQOnly) {
+        // Filter to show only PYQ questions
+        const pyqQuestions = allQuestions.filter(q => q.pyqYear);
+        state.customQuestions = pyqQuestions;
+        
+        // Reset current question to 0 if we're filtering
+        state.currentQuestion = 0;
+        
+        // Update state
+        this.stateManager.setState(state);
+        
+        // Update display
+        this.displayQuestion();
+        this.updateQuestionCount(pyqQuestions.length);
+      } else {
+        // Show all questions
+        state.customQuestions = null;
+        state.currentQuestion = 0;
+        
+        // Update state
+        this.stateManager.setState(state);
+        
+        // Update display
+        this.displayQuestion();
+        this.updateQuestionCount(allQuestions.length);
+      }
+    } catch (error) {
+      console.error('Error filtering PYQ questions:', error);
+    }
+  }
+
+  // Update question count display
+  updateQuestionCount(totalQuestions) {
+    try {
+      const questionNumberSpan = document.querySelector('.question-number');
+      if (questionNumberSpan) {
+        const currentQ = this.stateManager.getCurrentQuestion();
+        questionNumberSpan.innerHTML = `Question <span id="current-q-num">${currentQ + 1}</span> of ${totalQuestions}`;
+      }
+    } catch (error) {
+      console.error('Error updating question count:', error);
     }
   }
 }
