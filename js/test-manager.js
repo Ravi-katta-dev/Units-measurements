@@ -745,6 +745,7 @@ class TestManager {
       setTimeout(() => {
         if (this.isValid()) {
           this.startQuestionTimer();
+          this.updateSidebarStats(); // Update PYQ stats in sidebar
         }
       }, 100);
       
@@ -987,6 +988,11 @@ class TestManager {
           bookmarkIcon.className = 'bookmark-indicator';
           bookmarkIcon.innerHTML = '★';
           item.appendChild(bookmarkIcon);
+        }
+        
+        // Add PYQ indicator if question has pyqYear
+        if (currentQuestions[i].pyqYear) {
+          item.classList.add('pyq-question');
         }
         
         // Add tooltip showing status
@@ -1595,29 +1601,26 @@ class TestManager {
       if (!this.isValid()) return;
 
       const allQuestions = window.DEFAULT_QUESTIONS || [];
-      const state = this.stateManager.getState();
       
       if (showPYQOnly) {
         // Filter to show only PYQ questions
         const pyqQuestions = allQuestions.filter(q => q.pyqYear);
-        state.customQuestions = pyqQuestions;
         
-        // Reset current question to 0 if we're filtering
-        state.currentQuestion = 0;
-        
-        // Update state
-        this.stateManager.setState(state);
+        // Update state to use filtered questions
+        this.stateManager.updateState({ 
+          customQuestions: pyqQuestions,
+          currentQuestion: 0
+        });
         
         // Update display
         this.displayQuestion();
         this.updateQuestionCount(pyqQuestions.length);
       } else {
         // Show all questions
-        state.customQuestions = null;
-        state.currentQuestion = 0;
-        
-        // Update state
-        this.stateManager.setState(state);
+        this.stateManager.updateState({ 
+          customQuestions: null,
+          currentQuestion: 0
+        });
         
         // Update display
         this.displayQuestion();
@@ -1638,6 +1641,42 @@ class TestManager {
       }
     } catch (error) {
       console.error('Error updating question count:', error);
+    }
+  }
+
+  // Update sidebar PYQ statistics
+  updateSidebarStats() {
+    try {
+      const sidebarStats = document.getElementById('sidebar-stats');
+      if (!sidebarStats) return;
+
+      const pyqStats = this.getPYQStats();
+      
+      sidebarStats.innerHTML = `
+        <h4>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14,2 14,8 20,8"></polyline>
+          </svg>
+          PYQ Statistics
+        </h4>
+        <div class="stat-item">
+          <span class="stat-label">Total PYQ Questions:</span>
+          <span class="stat-value">${pyqStats.total}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">PYQ Percentage:</span>
+          <span class="stat-value">${pyqStats.percentage}%</span>
+        </div>
+        ${pyqStats.years.length > 0 ? `
+        <div class="stat-item">
+          <span class="stat-label">Latest Year:</span>
+          <span class="stat-value">${pyqStats.years[pyqStats.years.length - 1]}</span>
+        </div>
+        ` : ''}
+      `;
+    } catch (error) {
+      console.error('Error updating sidebar stats:', error);
     }
   }
 }
