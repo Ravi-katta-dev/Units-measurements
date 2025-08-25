@@ -1,0 +1,52 @@
+/* ================================
+   Progress Bar (Main + Question Timer)
+   ================================ */
+
+/* Support both .progress-container (old) and .timer-progress (new JS) */
+.progress-container,
+.timer-progress {
+  width: 100%;
+  height: 8px;
+  background-color: var(--color-secondary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-top: var(--space-8);
+}
+
+.progress-container .progress-bar,
+.timer-progress .progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: var(--color-success);
+  border-radius: var(--radius-full);
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.progress-bar.progress-warning {
+  background-color: var(--color-warning);
+}
+
+.progress-bar.progress-danger {
+  background-color: var(--color-error);
+}
+
+.timer-progress.hidden,
+.progress-container.hidden {
+  display: none;
+}
+
+/* Main Timer Progress Bar (header) */
+.enhanced-timer .progress-container,
+.enhanced-timer .timer-progress {
+  width: 180px;   /* limit width */
+  height: 8px;
+  margin-top: var(--space-8);
+}
+
+/* Question Timer Progress Bar (per question) */
+.question-timer-enhanced .progress-container,
+.question-timer-enhanced .timer-progress {
+  width: 120px;   /* smaller than main */
+  height: 4px;
+  margin-top: var(--space-4);
+}
