@@ -1,0 +1,32 @@
+/* ================================
+   View Transition Styles
+   ================================ */
+
+.view {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out; /* Smooth fade transition */
+  position: absolute; /* Position all views absolutely to prevent layout shifts during transition */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  visibility: hidden; /* Hide non-active views completely */
+  pointer-events: none; /* Prevent interaction with hidden views */
+}
+
+.view.active {
+  opacity: 1;
+  visibility: visible; /* Make active view visible */
+  pointer-events: auto; /* Allow interaction with active view */
+  position: relative; /* Restore relative positioning for active view to occupy space */
+}
+
+/* Optional: Add a slight scale effect for a more dynamic feel */
+.view {
+  transform: scale(0.98);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.view.active {
+  transform: scale(1);
+}
